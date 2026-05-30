@@ -30,6 +30,9 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Local agent tooling
+.claude/
+
 # Vercel
 .vercel
 

@@ -29,20 +29,20 @@ export default function CountrySelector({ selected, onChange }: Props) {
     <div className="space-y-4">
       {/* Controls */}
       <div className="flex flex-wrap gap-2 items-center">
-        <span className="text-xs font-medium text-gray-600">
-          已选 <span className="text-indigo-600 font-bold">{selected.length}</span> / {ALL_COUNTRY_CODES.length} 个国家
+        <span className="text-xs font-medium text-muted-foreground">
+          已选 <span className="text-foreground font-bold">{selected.length}</span> / {ALL_COUNTRY_CODES.length} 个国家
         </span>
         <div className="flex gap-1 ml-auto">
           <button type="button" onClick={() => onChange([...ALL_COUNTRY_CODES])}
-            className="px-2.5 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors">
+            className="px-2.5 py-1 text-xs font-medium bg-muted text-muted-foreground rounded-lg hover:bg-accent hover:text-foreground transition-colors">
             全选
           </button>
           <button type="button" onClick={() => onChange([])}
-            className="px-2.5 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors">
+            className="px-2.5 py-1 text-xs font-medium bg-muted text-muted-foreground rounded-lg hover:bg-accent hover:text-foreground transition-colors">
             清空
           </button>
           <button type="button" onClick={() => onChange([...DEFAULT_COUNTRIES])}
-            className="px-2.5 py-1 text-xs font-medium bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition-colors">
+            className="px-2.5 py-1 text-xs font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/85 transition-colors">
             Guazi热门国家 ({DEFAULT_COUNTRIES.length})
           </button>
         </div>
@@ -57,17 +57,17 @@ export default function CountrySelector({ selected, onChange }: Props) {
           const count = codes.filter((c) => selectedSet.has(c)).length;
 
           return (
-            <div key={continent} className="border border-gray-100 rounded-xl overflow-hidden">
-              <div className="flex items-center gap-2.5 px-3 py-2 bg-gray-50 border-b border-gray-100">
+            <div key={continent} className="border border-border rounded-xl overflow-hidden">
+              <div className="flex items-center gap-2.5 px-3 py-2 bg-muted/50 border-b border-border">
                 <input
                   type="checkbox"
                   checked={allSelected}
                   ref={(el) => { if (el) el.indeterminate = !allSelected && someSelected; }}
                   onChange={() => selectContinent(continent)}
-                  className="w-3.5 h-3.5 accent-indigo-600 cursor-pointer"
+                  className="w-3.5 h-3.5 accent-foreground cursor-pointer"
                 />
-                <span className="text-xs font-semibold text-gray-700">{continent}</span>
-                <span className="ml-auto text-[10px] text-gray-400 bg-white border border-gray-200 px-1.5 py-0.5 rounded-full">
+                <span className="text-xs font-semibold text-foreground">{continent}</span>
+                <span className="ml-auto text-[10px] text-muted-foreground bg-background border border-border px-1.5 py-0.5 rounded-full">
                   {count}/{codes.length}
                 </span>
               </div>
@@ -82,8 +82,8 @@ export default function CountrySelector({ selected, onChange }: Props) {
                       onClick={() => toggleCountry(code)}
                       className={`px-2 py-0.5 text-[11px] rounded-full border transition-all duration-100 ${
                         isOn
-                          ? "bg-indigo-600 text-white border-indigo-600 shadow-sm"
-                          : "bg-white text-gray-600 border-gray-200 hover:border-indigo-300 hover:text-indigo-600"
+                          ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                          : "bg-background text-muted-foreground border-border hover:border-foreground/30 hover:text-foreground"
                       }`}
                     >
                       {COUNTRY_MAP[code]?.name ?? code}

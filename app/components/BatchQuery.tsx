@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { Upload, Download, Zap, LayoutGrid, Settings2, Languages, Globe, Info, UploadCloud } from "lucide-react";
+import { Upload, Download, Zap, LayoutGrid, Settings2, Languages, Globe, Info } from "lucide-react";
 import CountrySelector from "./CountrySelector";
 import LanguageSelector from "./LanguageSelector";
 import LangMappingPanel from "./LangMappingPanel";
@@ -10,6 +10,11 @@ import { DEFAULT_COUNTRIES, COUNTRY_MAP } from "@/app/lib/countries";
 import { DEFAULT_LANGS, LANG_MAP, ALL_LANGS } from "@/app/lib/languages";
 import type { LangVolumes } from "@/app/lib/ahrefs";
 import { useApiKey } from "@/app/context/ApiKeyContext";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Separator } from "@/components/ui/separator";
 
 type MatchMode = "smart" | "full";
 type PanelType = "lang" | "country" | "mapping" | null;
@@ -207,128 +212,110 @@ export default function BatchQuery() {
   const overrideCount = Object.keys(langOverrides).length;
 
   return (
-    <section className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-      {/* Card header */}
-      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between gap-3">
-        <h2 className="text-sm font-semibold text-gray-900">批量关键词查询</h2>
+    <div className="rounded-2xl bg-card shadow-sm">
+      {/* Header */}
+      <div className="px-6 py-4 flex items-center justify-between gap-3 border-b border-border/60">
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-muted">
+            <LayoutGrid size={16} className="text-foreground/70" />
+          </div>
+          <div>
+            <h2 className="text-sm font-semibold leading-tight">批量关键词查询</h2>
+            <p className="text-xs text-muted-foreground">上传 Excel / CSV，多语言多国家一次查询</p>
+          </div>
+        </div>
         <div className="flex items-center gap-2">
           {rows.length > 0 && (
-            <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{rows.length} 条结果</span>
+            <Badge variant="secondary">{rows.length} 条结果</Badge>
           )}
           {overrideCount > 0 && matchMode === "smart" && (
-            <span className="text-xs text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full">
-              {overrideCount} 个自定义映射
-            </span>
+            <Badge variant="outline">{overrideCount} 个自定义映射</Badge>
           )}
         </div>
       </div>
 
-      <div className="p-6 space-y-3">
+      <div className="p-6 space-y-4">
 
-        {/* ── Row 1: Action buttons ── */}
+        {/* Row 1: Template + Upload + Export */}
         <div className="flex flex-wrap items-center gap-2">
-          {/* Template group */}
-          <div className="flex items-center gap-1">
-            <span className="text-xs text-gray-400 mr-0.5">下载模板:</span>
-            <button type="button" onClick={() => downloadTemplateCsv(selectedLangs)}
-              className="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-gray-600">
-              CSV
-            </button>
-            <button type="button" onClick={() => downloadTemplateXlsx(selectedLangs)}
-              className="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-gray-600">
-              Excel
-            </button>
-          </div>
+          <span className="text-xs text-muted-foreground">下载模板:</span>
+          <Button type="button" variant="outline" size="sm" onClick={() => downloadTemplateCsv(selectedLangs)}>CSV</Button>
+          <Button type="button" variant="outline" size="sm" onClick={() => downloadTemplateXlsx(selectedLangs)}>Excel</Button>
 
-          <div className="w-px h-5 bg-gray-200" />
+          <Separator orientation="vertical" className="h-5" />
 
-          {/* Upload */}
-          <label className={`px-4 py-1.5 text-xs font-semibold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 ${
-            hasKey && !running ? "bg-indigo-600 text-white hover:bg-indigo-700" : "bg-gray-100 text-gray-400 cursor-not-allowed"
-          }`}>
+          <Button
+            size="sm"
+            disabled={running || !hasKey}
+            render={<label />}
+            className="gap-1.5 cursor-pointer"
+          >
             <Upload size={13} />
             上传文件并开始
             <input ref={fileRef} type="file" accept=".xlsx,.xls,.csv" className="hidden"
               onChange={handleFileAndRun} disabled={running || !hasKey} />
-          </label>
+          </Button>
 
           {running && (
-            <button type="button" onClick={() => abortRef.current?.abort()}
-              className="px-3 py-1.5 text-xs font-medium bg-red-50 text-red-600 border border-red-100 rounded-lg hover:bg-red-100 transition-colors flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />停止
-            </button>
+            <Button type="button" variant="destructive" size="sm" onClick={() => abortRef.current?.abort()}
+              className="gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              停止
+            </Button>
           )}
 
           {rows.length > 0 && !running && (
-            <button type="button" onClick={() => exportToExcel(rows, selectedCountries, queryLangs, matchMode, langOverrides)}
-              className="px-3 py-1.5 text-xs font-semibold bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors flex items-center gap-1.5">
+            <Button type="button" variant="outline" size="sm"
+              onClick={() => exportToExcel(rows, selectedCountries, queryLangs, matchMode, langOverrides)}
+              className="gap-1.5 ml-auto">
               <Download size={13} />
               导出 Excel
-            </button>
+            </Button>
           )}
         </div>
 
-        {/* ── Row 2: View / filter controls ── */}
-        <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-gray-50">
-          {/* Match mode toggle */}
-          <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden text-xs font-medium shrink-0">
+        {/* Row 2: View controls */}
+        <div className="flex flex-wrap items-center gap-2 pt-3">
+          {/* Match mode */}
+          <div className="flex rounded-lg bg-muted p-0.5 text-xs font-medium">
             <button type="button" onClick={() => setMatchMode("smart")}
-              className={`px-3 py-1.5 transition-colors flex items-center gap-1.5 ${matchMode === "smart" ? "bg-indigo-600 text-white" : "bg-white text-gray-500 hover:bg-gray-50"}`}
-              title="每个国家使用主要语言，1列/国家">
-              <Zap size={11} />
-              显示智能匹配结果
+              className={`px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-all ${matchMode === "smart" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}>
+              <Zap size={11} />智能匹配
             </button>
             <button type="button" onClick={() => setMatchMode("full")}
-              className={`px-3 py-1.5 transition-colors flex items-center gap-1.5 border-l border-gray-200 ${matchMode === "full" ? "bg-indigo-600 text-white" : "bg-white text-gray-500 hover:bg-gray-50"}`}
-              title="每个国家所有语言各一列">
-              <LayoutGrid size={11} />
-              显示全量结果
+              className={`px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-all ${matchMode === "full" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}>
+              <LayoutGrid size={11} />全量结果
             </button>
           </div>
 
-          {/* Mapping config — only in smart mode */}
           {matchMode === "smart" && (
-            <button type="button" onClick={() => togglePanel("mapping")}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors flex items-center gap-1.5 ${
-                openPanel === "mapping" ? "bg-indigo-50 border border-indigo-200 text-indigo-700" : "border border-gray-200 hover:bg-gray-50 text-gray-600"
-              }`}>
-              <Settings2 size={12} />
-              语言映射
+            <Button type="button" variant={openPanel === "mapping" ? "secondary" : "outline"} size="sm"
+              onClick={() => togglePanel("mapping")} className="gap-1.5">
+              <Settings2 size={12} />语言映射
               {overrideCount > 0 && (
-                <span className="bg-indigo-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full leading-none">
-                  {overrideCount}
-                </span>
+                <Badge className="h-4 px-1.5 text-[9px]">{overrideCount}</Badge>
               )}
-            </button>
+            </Button>
           )}
 
-          {/* Spacer */}
           <div className="flex-1" />
 
-          {/* Language selector */}
-          <button type="button" onClick={() => togglePanel("lang")}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors flex items-center gap-1.5 ${
-              openPanel === "lang" ? "bg-indigo-50 border border-indigo-200 text-indigo-700" : "border border-gray-200 hover:bg-gray-50 text-gray-600"
-            }`}>
-            <Languages size={12} />
-            设定模版文件语言
-            <span className="bg-indigo-100 text-indigo-700 text-[10px] font-bold px-1.5 py-0.5 rounded-full">{selectedLangs.length}</span>
-          </button>
+          <Button type="button" variant={openPanel === "lang" ? "secondary" : "outline"} size="sm"
+            onClick={() => togglePanel("lang")} className="gap-1.5">
+            <Languages size={12} />模板语言
+            <Badge variant="secondary" className="h-4 px-1.5 text-[9px]">{selectedLangs.length}</Badge>
+          </Button>
 
-          {/* Country selector */}
-          <button type="button" onClick={() => togglePanel("country")}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors flex items-center gap-1.5 ${
-              openPanel === "country" ? "bg-indigo-50 border border-indigo-200 text-indigo-700" : "border border-gray-200 hover:bg-gray-50 text-gray-600"
-            }`}>
-            <Globe size={12} />
-            选择查询国家
-            <span className="bg-indigo-100 text-indigo-700 text-[10px] font-bold px-1.5 py-0.5 rounded-full">{selectedCountries.length}</span>
-          </button>
+          <Button type="button" variant={openPanel === "country" ? "secondary" : "outline"} size="sm"
+            onClick={() => togglePanel("country")} className="gap-1.5">
+            <Globe size={12} />查询国家
+            <Badge variant="secondary" className="h-4 px-1.5 text-[9px]">{selectedCountries.length}</Badge>
+          </Button>
         </div>
 
-        {/* ── Expandable panels ── */}
+        {/* Expandable panels */}
         {openPanel === "mapping" && (
-          <div className="border border-indigo-100 rounded-xl p-4 bg-indigo-50/20">
+          <div className="rounded-xl bg-muted/50 p-4 shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)]">
             <LangMappingPanel
               selectedCountries={selectedCountries}
               overrides={langOverrides}
@@ -340,53 +327,49 @@ export default function BatchQuery() {
           </div>
         )}
         {openPanel === "lang" && (
-          <div className="border border-indigo-100 rounded-xl p-4 bg-indigo-50/30">
+          <div className="rounded-xl bg-muted/50 p-4 shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)]">
             <LanguageSelector selected={selectedLangs} onChange={setSelectedLangs} />
           </div>
         )}
         {openPanel === "country" && (
-          <div className="border border-gray-100 rounded-xl p-4 bg-gray-50">
+          <div className="rounded-xl bg-muted/50 p-4 shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)]">
             <CountrySelector selected={selectedCountries} onChange={setSelectedCountries} />
           </div>
         )}
 
-        {/* ── Notices ── */}
+        {/* Notices */}
         {!hasKey && (
-          <div className="flex items-center gap-2 text-sm text-amber-700 bg-amber-50 border border-amber-100 rounded-xl px-4 py-3">
-            <span>⚠️</span><span>请先在右上角设置 API Key 后再使用批量查询</span>
-          </div>
+          <Alert>
+            <AlertDescription>请先在右上角设置 API Key 后再使用批量查询</AlertDescription>
+          </Alert>
         )}
         {detectedNote && !running && (
-          <div className="flex items-center gap-2 text-xs text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-xl px-4 py-2.5">
-            <Info size={13} className="shrink-0 text-indigo-400" />
-            {detectedNote}
-          </div>
+          <Alert>
+            <Info size={14} />
+            <AlertDescription>{detectedNote}</AlertDescription>
+          </Alert>
         )}
         {error && (
-          <div className="flex items-start gap-2 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-            <span className="shrink-0 mt-0.5">⚠️</span>
-            <span className="break-all">{error}</span>
-          </div>
+          <Alert variant="destructive">
+            <AlertDescription className="break-all">{error}</AlertDescription>
+          </Alert>
         )}
 
-        {/* ── Progress ── */}
+        {/* Progress */}
         {progress && (
           <div className="space-y-2">
-            <div className="flex justify-between items-center text-xs text-gray-500">
+            <div className="flex justify-between text-xs text-muted-foreground">
               <span className="flex items-center gap-2">
-                {running && <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />}
+                {running && <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />}
                 {running ? "处理中…" : "已完成"} {progress.done} / {progress.total}
               </span>
-              <span className="font-mono font-semibold text-gray-700">{pct}%</span>
+              <span className="font-mono font-semibold">{pct}%</span>
             </div>
-            <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-              <div className={`h-full rounded-full transition-all duration-500 ${running ? "bg-indigo-500" : "bg-emerald-500"}`}
-                style={{ width: `${pct}%` }} />
-            </div>
+            <Progress value={pct} className="h-1.5" />
           </div>
         )}
 
-        {/* ── Pivot table ── */}
+        {/* Pivot table */}
         {rows.length > 0 && (
           <PivotTable
             rows={rows}
@@ -398,17 +381,17 @@ export default function BatchQuery() {
           />
         )}
 
-        {/* ── Empty state ── */}
+        {/* Empty state */}
         {!running && rows.length === 0 && !error && (
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <div className="w-12 h-12 bg-gray-100 rounded-2xl flex items-center justify-center mb-3">
-              <UploadCloud className="w-6 h-6 text-gray-400" />
+          <div className="flex flex-col items-center justify-center py-14 text-center">
+            <div className="w-12 h-12 rounded-2xl bg-muted flex items-center justify-center mb-3 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+              <Upload size={18} className="text-muted-foreground" />
             </div>
-            <p className="text-sm font-medium text-gray-600 mb-1">上传 Excel 或 CSV 文件开始批量查询</p>
-            <p className="text-xs text-gray-400">先选择语言并下载模板，填写关键词后上传</p>
+            <p className="text-sm font-medium mb-1">上传 Excel 或 CSV 文件开始批量查询</p>
+            <p className="text-xs text-muted-foreground">先选择语言并下载模板，填写关键词后上传</p>
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 }
