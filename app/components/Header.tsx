@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Search, Eye, EyeOff } from "lucide-react";
 import { useApiKey } from "@/app/context/ApiKeyContext";
+import AiKeyDialog from "@/app/components/AiKeyDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,7 +18,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-export default function Header() {
+export default function Header({ showAhrefsKey = false }: { showAhrefsKey?: boolean }) {
   const { apiKey, setApiKey, hasKey } = useApiKey();
 
   const [input, setInput] = useState("");
@@ -55,8 +56,10 @@ export default function Header() {
           <span className="text-sm font-semibold tracking-tight">SEO Toolkit</span>
         </Link>
 
-        {/* API Key Dialog */}
-        <div className="ml-auto">
+        {/* Settings */}
+        <div className="ml-auto flex items-center gap-2">
+          <AiKeyDialog />
+          {showAhrefsKey && (
           <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogTrigger
               render={
@@ -129,6 +132,7 @@ export default function Header() {
               </DialogFooter>
             </DialogContent>
           </Dialog>
+          )}
         </div>
       </div>
     </header>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Search, BarChart2, Lightbulb, TrendingUp, ArrowRight, Layers, ArrowUpRight } from "lucide-react";
+import { Search, BadgeCheck, Link2, Braces, Languages, ArrowRight, Layers, ArrowUpRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,28 +26,36 @@ const TOOLS: Tool[] = [
     href: "/keywords",
   },
   {
-    slug: "competitor",
-    icon: BarChart2,
-    name: "竞争对手分析",
-    nameEn: "Competitor Analysis",
-    description: "分析竞品的有机流量、关键词排名及反链，找到超越对手的突破口。",
-    tags: ["流量分析", "反链"],
+    slug: "eeat",
+    icon: BadgeCheck,
+    name: "EEAT 评估",
+    nameEn: "E-E-A-T Evaluator",
+    description: "评估页面的经验、专业性、权威性与可信度，定位内容信任信号的优化空间。",
+    tags: ["内容质量", "可信度"],
   },
   {
-    slug: "opportunities",
-    icon: Lightbulb,
-    name: "内容机会发现",
-    nameEn: "Content Opportunities",
-    description: "发现高潜力内容选题，找到竞争少、流量大的关键词机会。",
-    tags: ["内容规划", "长尾词"],
+    slug: "slug-generator",
+    icon: Link2,
+    name: "Slug 生成器",
+    nameEn: "Slug Generator",
+    description: "将标题或关键词转换为简洁、可读、适合 SEO 的 URL slug。",
+    tags: ["URL 优化", "批量生成"],
   },
   {
-    slug: "rank-tracker",
-    icon: TrendingUp,
-    name: "排名追踪",
-    nameEn: "Rank Tracker",
-    description: "追踪目标关键词在各搜索引擎与地区的排名变化趋势。",
-    tags: ["排名监控", "多引擎"],
+    slug: "schema-builder",
+    icon: Braces,
+    name: "Schema Builder",
+    nameEn: "Schema Builder",
+    description: "快速生成常用结构化数据标记，帮助搜索引擎理解页面实体与内容类型。",
+    tags: ["结构化数据", "JSON-LD"],
+  },
+  {
+    slug: "ui-translation",
+    icon: Languages,
+    name: "UI 多语言翻译",
+    nameEn: "UI Localization",
+    description: "管理界面文案的多语言翻译、缺失项检查与本地化一致性。",
+    tags: ["本地化", "多语言"],
   },
 ];
 
@@ -68,11 +76,7 @@ export default function HubPage() {
             <span className="text-sm font-semibold tracking-tight">SEO Toolkit</span>
           </Link>
 
-          <div className="ml-auto">
-            <Button size="sm" render={<Link href="/keywords" />}>
-              开始使用
-            </Button>
-          </div>
+          <div className="ml-auto" />
         </div>
       </header>
 
@@ -85,13 +89,13 @@ export default function HubPage() {
         </div>
 
         <h1 className="mb-4 max-w-2xl text-balance text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-          全球 SEO 数据
+          SEO 工具箱
           <br />
-          <span className="text-muted-foreground/60">触手可及</span>
+          <span className="text-muted-foreground/60">常用工具集合</span>
         </h1>
 
         <p className="mb-10 max-w-md text-base text-muted-foreground sm:text-lg">
-          一站式关键词研究、竞品分析与排名追踪工具集，数据驱动你的 SEO 决策。
+          整理常用的 SEO 工具，方便做关键词查询、内容检查和页面优化。
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-3">
@@ -118,7 +122,7 @@ export default function HubPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {TOOLS.map((tool) => (
             <ToolCard key={tool.slug} tool={tool} />
           ))}
