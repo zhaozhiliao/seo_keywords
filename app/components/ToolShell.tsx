@@ -19,8 +19,12 @@ export default function ToolShell({ title, nameEn, description, icon: Icon, chil
       <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-8 sm:py-10">
         {/* Breadcrumb */}
         <nav className="mb-5 flex items-center gap-1.5 text-xs">
-          <Link href="/" className="text-muted-foreground transition-colors hover:text-foreground">
+          <Link href="/tools" className="text-muted-foreground transition-colors hover:text-foreground">
             SEO Toolkit
+          </Link>
+          <ChevronRight size={13} className="text-muted-foreground/50" />
+          <Link href="/tools" className="text-muted-foreground transition-colors hover:text-foreground">
+            工具
           </Link>
           <ChevronRight size={13} className="text-muted-foreground/50" />
           <span className="font-medium text-foreground">{title}</span>

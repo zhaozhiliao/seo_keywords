@@ -25,6 +25,7 @@ export default function SchemaBuilder() {
   const [state, setState] = useState<SchemaFormState>({
     faq: [{ q: "", a: "" }] as FaqItem[],
     breadcrumb: [{ name: "", url: "" }] as CrumbItem[],
+    category: "used-car",
   });
   const [wrapScript, setWrapScript] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -176,6 +177,38 @@ export default function SchemaBuilder() {
             {/* Fields */}
             <div className="space-y-3">
               {type.fields.map((field) => {
+                // conditional visibility
+                if (field.showWhen) {
+                  const current = (state[field.showWhen.key] as string) ?? "";
+                  if (!field.showWhen.values.includes(current)) return null;
+                }
+
+                if (field.kind === "select") {
+                  const value = (state[field.key] as string) ?? field.options?.[0]?.value ?? "";
+                  return (
+                    <div key={field.key} className="space-y-1.5">
+                      <Label htmlFor={field.key}>{field.label}</Label>
+                      <div className="flex flex-wrap gap-1.5">
+                        {field.options?.map((opt) => {
+                          const on = opt.value === value;
+                          return (
+                            <button
+                              key={opt.value}
+                              type="button"
+                              onClick={() => setField(field.key, opt.value)}
+                              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+                                on ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"
+                              }`}
+                            >
+                              {opt.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                }
+
                 if (field.kind === "faq") {
                   return (
                     <div key={field.key} className="space-y-2">

@@ -19,10 +19,17 @@ export default function KeywordsPage() {
         {/* ── Breadcrumb ── */}
         <nav className="mb-5 flex items-center gap-1.5 text-xs">
           <Link
-            href="/"
+            href="/tools"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
             SEO Toolkit
+          </Link>
+          <ChevronRight size={13} className="text-muted-foreground/50" />
+          <Link
+            href="/tools"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            工具
           </Link>
           <ChevronRight size={13} className="text-muted-foreground/50" />
           <span className="font-medium text-foreground">关键词探索</span>

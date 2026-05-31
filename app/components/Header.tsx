@@ -49,7 +49,7 @@ export default function Header({ showAhrefsKey = false }: { showAhrefsKey?: bool
       <div className="mx-auto flex h-full max-w-6xl items-center gap-3 px-6">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-80">
+        <Link href="/tools" className="flex items-center gap-2 transition-opacity hover:opacity-80">
           <div className="flex h-6 w-6 items-center justify-center rounded-md bg-foreground">
             <Search size={12} className="text-background" />
           </div>
