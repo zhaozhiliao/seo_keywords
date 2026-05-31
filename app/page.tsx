@@ -39,7 +39,8 @@ const TOOLS: Tool[] = [
     name: "Slug 生成器",
     nameEn: "Slug Generator",
     description: "将标题或关键词转换为简洁、可读、适合 SEO 的 URL slug。",
-    tags: ["URL 优化", "批量生成"],
+    tags: ["AI", "URL 优化", "多语言"],
+    href: "/slug",
   },
   {
     slug: "schema-builder",
@@ -47,15 +48,17 @@ const TOOLS: Tool[] = [
     name: "Schema Builder",
     nameEn: "Schema Builder",
     description: "快速生成常用结构化数据标记，帮助搜索引擎理解页面实体与内容类型。",
-    tags: ["结构化数据", "JSON-LD"],
+    tags: ["结构化数据", "JSON-LD", "AI"],
+    href: "/schema",
   },
   {
     slug: "ui-translation",
     icon: Languages,
-    name: "UI 多语言翻译",
-    nameEn: "UI Localization",
-    description: "管理界面文案的多语言翻译、缺失项检查与本地化一致性。",
-    tags: ["本地化", "多语言"],
+    name: "UI 文案翻译",
+    nameEn: "UI Copy Translator",
+    description: "一次将界面文案翻译成多种语言，输出地道 UI 表达，支持自定义提示词。",
+    tags: ["AI", "本地化", "多语言"],
+    href: "/ui-translate",
   },
 ];
 
