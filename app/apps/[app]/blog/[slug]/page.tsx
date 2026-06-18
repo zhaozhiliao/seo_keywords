@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { Container } from "@/components/ui/container";
+import { Breadcrumbs } from "@/components/nav/breadcrumbs";
 import { PostHeader } from "@/components/blog/post-header";
 import { MDXContent } from "@/components/mdx/mdx-content";
 import { getApp, appHasNav, getAllApps } from "@/lib/apps";
@@ -38,12 +37,14 @@ export default async function AppBlogPostPage({ params }: { params: Promise<{ ap
 
   return (
     <Container width="content" className="py-12">
-      <Link
-        href={`/apps/${app.slug}/blog`}
-        className="mb-8 inline-flex items-center gap-1.5 text-sm text-fg-muted transition-colors hover:text-brand"
-      >
-        <ArrowLeft size={14} /> 返回 {app.name} 博客
-      </Link>
+      <Breadcrumbs
+        items={[
+          { label: "Apps", href: "/apps" },
+          { label: app.name, href: `/apps/${app.slug}` },
+          { label: "博客", href: `/apps/${app.slug}/blog` },
+          { label: post.title },
+        ]}
+      />
       <article>
         <PostHeader title={post.title} description={post.description} date={post.date} tags={post.tags} />
         <MDXContent body={post.body} />

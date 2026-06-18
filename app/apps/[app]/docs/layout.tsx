@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/container";
 import { DocsSidebar } from "@/components/docs/docs-sidebar";
+import { Breadcrumbs } from "@/components/nav/breadcrumbs";
 import { getApp, appHasNav } from "@/lib/apps";
 import { getAppDocsNav } from "@/lib/content";
 
@@ -19,6 +20,13 @@ export default async function AppDocsLayout({
 
   return (
     <Container className="py-10">
+      <Breadcrumbs
+        items={[
+          { label: "Apps", href: "/apps" },
+          { label: app.name, href: `/apps/${app.slug}` },
+          { label: "文档" },
+        ]}
+      />
       <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)]">
         <DocsSidebar items={items} title={`${app.name} 文档`} />
         <div className="min-w-0">{children}</div>

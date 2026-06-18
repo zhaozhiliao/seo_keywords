@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { AppHero } from "@/components/app/app-hero";
+import { Breadcrumbs } from "@/components/nav/breadcrumbs";
 import { getApp } from "@/lib/apps";
 import { buildMetadata } from "@/lib/seo";
 
@@ -28,7 +29,8 @@ export default async function AppHomePage({ params }: { params: Promise<{ app: s
   const base = `/apps/${app.slug}`;
 
   return (
-    <Container width="content">
+    <Container width="content" className="pt-8">
+      <Breadcrumbs items={[{ label: "Apps", href: "/apps" }, { label: app.name }]} />
       <AppHero app={app} />
 
       <div className="grid gap-3 pb-16 sm:grid-cols-3">

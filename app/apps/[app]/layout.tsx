@@ -1,6 +1,5 @@
 import type { CSSProperties } from "react";
 import { notFound } from "next/navigation";
-import { AppHeader } from "@/components/app/app-header";
 import { getAllApps, getApp } from "@/lib/apps";
 
 export function generateStaticParams() {
@@ -21,10 +20,5 @@ export default async function AppLayout({
   // Inject the App's brand color as --brand for this subtree (§3).
   const style = app.brandColor ? ({ "--brand": app.brandColor } as CSSProperties) : undefined;
 
-  return (
-    <div style={style}>
-      <AppHeader app={app} />
-      {children}
-    </div>
-  );
+  return <div style={style}>{children}</div>;
 }
