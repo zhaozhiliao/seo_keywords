@@ -4,8 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { SiteNav } from "@/components/nav/site-nav";
 import { SiteFooter } from "@/components/footer/site-footer";
-import { ApiKeyProvider } from "@/app/context/ApiKeyContext";
-import { AiKeysProvider } from "@/app/context/AiKeysContext";
+import { ApiKeyProvider } from "@/components/context/ApiKeyContext";
+import { AiKeysProvider } from "@/components/context/AiKeysContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains-mono", display: "swap" });

@@ -6,7 +6,7 @@ import {
   DEFAULT_PROVIDER_ID,
   LS_AI_KEYS,
   LS_AI_SELECTED,
-} from "@/app/lib/ai/providers";
+} from "@/lib/ai/providers";
 
 interface AiKeysCtx {
   /** provider id -> api key (only non-empty entries) */

@@ -3,19 +3,20 @@
  * never import `.source` directly. App content lives in one flat collection
  * each and is filtered by app slug here (see ARCHITECTURE.md §4).
  */
-import { blog, appDocs, appBlog, appChangelog } from "@/.source";
+import { blog, appDocs, appBlog, appChangelog } from "@/.source/server";
 import type { ComponentType } from "react";
-import type { TableOfContents } from "fumadocs-core/server";
+import type { TableOfContents } from "fumadocs-core/toc";
 
 export interface DocEntry {
   title: string;
   description?: string;
   date?: string | Date;
   tags?: string[];
+  order?: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: ComponentType<any>;
   toc: TableOfContents;
-  _file: { path: string };
+  info: { path: string };
 }
 
 export interface BlogMeta {
@@ -44,7 +45,7 @@ function tailSlugs(path: string, section: string): string[] {
 export function getBlogPosts(): BlogMeta[] {
   return (blog as unknown as DocEntry[])
     .map((p) => ({
-      slug: stripExt(p._file.path),
+      slug: stripExt(p.info.path),
       title: p.title,
       description: p.description,
       date: p.date,
@@ -54,49 +55,49 @@ export function getBlogPosts(): BlogMeta[] {
 }
 
 export function getBlogPost(slug: string): DocEntry | undefined {
-  return (blog as unknown as DocEntry[]).find((p) => stripExt(p._file.path) === slug);
+  return (blog as unknown as DocEntry[]).find((p) => stripExt(p.info.path) === slug);
 }
 
 /* ══════════════ App docs ══════════════ */
 const appDocsOf = (app: string) =>
-  (appDocs as unknown as DocEntry[]).filter((p) => p._file.path.startsWith(`${app}/docs/`));
+  (appDocs as unknown as DocEntry[]).filter((p) => p.info.path.startsWith(`${app}/docs/`));
 
 export function getAppDocs(app: string): DocEntry[] {
   return appDocsOf(app).sort(
-    (a, b) => ((a as { order?: number }).order ?? 99) - ((b as { order?: number }).order ?? 99)
+    (a, b) => (a.order ?? 99) - (b.order ?? 99)
   );
 }
 
 /** Sidebar items for an app's docs. */
 export function getAppDocsNav(app: string) {
   return getAppDocs(app).map((p) => {
-    const slugs = tailSlugs(p._file.path, "docs");
+    const slugs = tailSlugs(p.info.path, "docs");
     return { title: p.title, slugs, href: `/apps/${app}/docs${slugs.length ? "/" + slugs.join("/") : ""}` };
   });
 }
 
 export function getAppDoc(app: string, slugs: string[] = []): DocEntry | undefined {
   return appDocsOf(app).find((p) => {
-    const t = tailSlugs(p._file.path, "docs");
+    const t = tailSlugs(p.info.path, "docs");
     return t.length === slugs.length && t.every((s, i) => s === slugs[i]);
   });
 }
 
 /* ══════════════ App blog ══════════════ */
 const appBlogOf = (app: string) =>
-  (appBlog as unknown as DocEntry[]).filter((p) => p._file.path.startsWith(`${app}/blog/`));
+  (appBlog as unknown as DocEntry[]).filter((p) => p.info.path.startsWith(`${app}/blog/`));
 
 export function getAppBlogPosts(app: string): BlogMeta[] {
   return appBlogOf(app)
-    .map((p) => ({ slug: tailSlugs(p._file.path, "blog").join("/"), title: p.title, description: p.description, date: p.date, tags: p.tags }))
+    .map((p) => ({ slug: tailSlugs(p.info.path, "blog").join("/"), title: p.title, description: p.description, date: p.date, tags: p.tags }))
     .sort(byDateDesc);
 }
 
 export function getAppBlogPost(app: string, slug: string): DocEntry | undefined {
-  return appBlogOf(app).find((p) => tailSlugs(p._file.path, "blog").join("/") === slug);
+  return appBlogOf(app).find((p) => tailSlugs(p.info.path, "blog").join("/") === slug);
 }
 
 /* ══════════════ App changelog ══════════════ */
 export function getAppChangelog(app: string): DocEntry | undefined {
-  return (appChangelog as unknown as DocEntry[]).find((p) => p._file.path === `${app}/changelog.mdx`);
+  return (appChangelog as unknown as DocEntry[]).find((p) => p.info.path === `${app}/changelog.mdx`);
 }

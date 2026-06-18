@@ -6,14 +6,16 @@ import { getApp, appHasNav } from "@/lib/apps";
 import { getAppBlogPosts } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
-export function generateMetadata({ params }: { params: { app: string } }): Metadata {
-  const app = getApp(params.app);
+export async function generateMetadata({ params }: { params: Promise<{ app: string }> }): Promise<Metadata> {
+  const { app: appSlug } = await params;
+  const app = getApp(appSlug);
   if (!app) return {};
   return buildMetadata({ title: `${app.name} 博客`, description: `${app.name} 的动态与文章。`, path: `/apps/${app.slug}/blog` });
 }
 
-export default function AppBlogPage({ params }: { params: { app: string } }) {
-  const app = getApp(params.app);
+export default async function AppBlogPage({ params }: { params: Promise<{ app: string }> }) {
+  const { app: appSlug } = await params;
+  const app = getApp(appSlug);
   if (!app || !appHasNav(app, "blog")) notFound();
 
   const posts = getAppBlogPosts(app.slug);

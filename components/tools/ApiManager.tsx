@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { Eye, EyeOff, Check, Sparkles, BarChart3, ExternalLink } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useAiKeys } from "@/app/context/AiKeysContext";
-import { useApiKey } from "@/app/context/ApiKeyContext";
-import { AI_PROVIDERS } from "@/app/lib/ai/providers";
+import { useAiKeys } from "@/components/context/AiKeysContext";
+import { useApiKey } from "@/components/context/ApiKeyContext";
+import { AI_PROVIDERS } from "@/lib/ai/providers";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 

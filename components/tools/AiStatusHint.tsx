@@ -1,7 +1,7 @@
 "use client";
 
-import { useAiKeys } from "@/app/context/AiKeysContext";
-import { getProvider } from "@/app/lib/ai/providers";
+import { useAiKeys } from "@/components/context/AiKeysContext";
+import { getProvider } from "@/lib/ai/providers";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 /** Inline notice prompting the user to configure an AI key when none is set. */

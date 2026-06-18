@@ -15,23 +15,25 @@ export function generateStaticParams() {
     .flatMap((a) => getAppBlogPosts(a.slug).map((p) => ({ app: a.slug, slug: p.slug })));
 }
 
-export function generateMetadata({ params }: { params: { app: string; slug: string } }): Metadata {
-  const post = getAppBlogPost(params.app, params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ app: string; slug: string }> }): Promise<Metadata> {
+  const { app, slug } = await params;
+  const post = getAppBlogPost(app, slug);
   if (!post) return {};
   return buildMetadata({
     title: post.title,
     description: post.description,
-    path: `/apps/${params.app}/blog/${params.slug}`,
+    path: `/apps/${app}/blog/${slug}`,
     type: "article",
     date: post.date,
   });
 }
 
-export default function AppBlogPostPage({ params }: { params: { app: string; slug: string } }) {
-  const app = getApp(params.app);
+export default async function AppBlogPostPage({ params }: { params: Promise<{ app: string; slug: string }> }) {
+  const { app: appSlug, slug } = await params;
+  const app = getApp(appSlug);
   if (!app || !appHasNav(app, "blog")) notFound();
 
-  const post = getAppBlogPost(params.app, params.slug);
+  const post = getAppBlogPost(appSlug, slug);
   if (!post) notFound();
 
   return (

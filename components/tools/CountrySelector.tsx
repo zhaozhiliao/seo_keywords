@@ -1,6 +1,6 @@
 "use client";
 
-import { CONTINENTS, COUNTRIES_BY_CONTINENT, COUNTRY_MAP, ALL_COUNTRY_CODES, DEFAULT_COUNTRIES } from "@/app/lib/countries";
+import { CONTINENTS, COUNTRIES_BY_CONTINENT, COUNTRY_MAP, ALL_COUNTRY_CODES, DEFAULT_COUNTRIES } from "@/lib/countries";
 
 interface Props {
   selected: string[];

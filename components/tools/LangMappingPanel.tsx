@@ -2,8 +2,8 @@
 
 import { useState, useMemo } from "react";
 import { Search } from "lucide-react";
-import { COUNTRY_MAP, ALL_COUNTRY_CODES } from "@/app/lib/countries";
-import { LANG_MAP, ALL_LANGS } from "@/app/lib/languages";
+import { COUNTRY_MAP, ALL_COUNTRY_CODES } from "@/lib/countries";
+import { LANG_MAP, ALL_LANGS } from "@/lib/languages";
 
 interface Props {
   selectedCountries: string[];                  // currently selected in query (for highlight)

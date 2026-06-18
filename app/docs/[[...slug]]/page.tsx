@@ -9,8 +9,9 @@ export function generateStaticParams() {
   return docsSource.generateParams();
 }
 
-export function generateMetadata({ params }: { params: { slug?: string[] } }): Metadata {
-  const page = docsSource.getPage(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug?: string[] }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const page = docsSource.getPage(slug);
   if (!page) return {};
   return buildMetadata({
     title: page.data.title,
@@ -19,8 +20,9 @@ export function generateMetadata({ params }: { params: { slug?: string[] } }): M
   });
 }
 
-export default function DocsPage({ params }: { params: { slug?: string[] } }) {
-  const page = docsSource.getPage(params.slug);
+export default async function DocsPage({ params }: { params: Promise<{ slug?: string[] }> }) {
+  const { slug } = await params;
+  const page = docsSource.getPage(slug);
   if (!page) notFound();
 
   return (

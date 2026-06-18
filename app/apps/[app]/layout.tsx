@@ -7,14 +7,15 @@ export function generateStaticParams() {
   return getAllApps().map((a) => ({ app: a.slug }));
 }
 
-export default function AppLayout({
+export default async function AppLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { app: string };
+  params: Promise<{ app: string }>;
 }) {
-  const app = getApp(params.app);
+  const { app: appSlug } = await params;
+  const app = getApp(appSlug);
   if (!app) notFound();
 
   // Inject the App's brand color as --brand for this subtree (§3).

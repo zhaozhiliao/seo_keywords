@@ -4,14 +4,15 @@ import { DocsSidebar } from "@/components/docs/docs-sidebar";
 import { getApp, appHasNav } from "@/lib/apps";
 import { getAppDocsNav } from "@/lib/content";
 
-export default function AppDocsLayout({
+export default async function AppDocsLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { app: string };
+  params: Promise<{ app: string }>;
 }) {
-  const app = getApp(params.app);
+  const { app: appSlug } = await params;
+  const app = getApp(appSlug);
   if (!app || !appHasNav(app, "docs")) notFound();
 
   const items = getAppDocsNav(app.slug).map((n) => ({ title: n.title, href: n.href }));

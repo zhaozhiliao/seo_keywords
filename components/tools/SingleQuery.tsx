@@ -2,11 +2,11 @@
 
 import { useState, useRef, useEffect, useMemo } from "react";
 import { ChevronDown, Search, Check, Loader2 } from "lucide-react";
-import { COUNTRY_MAP, ALL_COUNTRY_CODES, CONTINENTS, COUNTRIES_BY_CONTINENT } from "@/app/lib/countries";
-import { LANG_MAP } from "@/app/lib/languages";
-import { useApiKey } from "@/app/context/ApiKeyContext";
-import { parseCsvCodes, useUrlParams } from "@/app/lib/url-state";
-import { VirtualList } from "@/app/components/VirtualList";
+import { COUNTRY_MAP, ALL_COUNTRY_CODES, CONTINENTS, COUNTRIES_BY_CONTINENT } from "@/lib/countries";
+import { LANG_MAP } from "@/lib/languages";
+import { useApiKey } from "@/components/context/ApiKeyContext";
+import { parseCsvCodes, useUrlParams } from "@/lib/url-state";
+import { VirtualList } from "@/components/tools/VirtualList";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";

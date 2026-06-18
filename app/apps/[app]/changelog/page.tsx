@@ -6,14 +6,16 @@ import { getApp, appHasNav } from "@/lib/apps";
 import { getAppChangelog } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
-export function generateMetadata({ params }: { params: { app: string } }): Metadata {
-  const app = getApp(params.app);
+export async function generateMetadata({ params }: { params: Promise<{ app: string }> }): Promise<Metadata> {
+  const { app: appSlug } = await params;
+  const app = getApp(appSlug);
   if (!app) return {};
   return buildMetadata({ title: `${app.name} 更新日志`, description: `${app.name} 的版本更新记录。`, path: `/apps/${app.slug}/changelog` });
 }
 
-export default function AppChangelogPage({ params }: { params: { app: string } }) {
-  const app = getApp(params.app);
+export default async function AppChangelogPage({ params }: { params: Promise<{ app: string }> }) {
+  const { app: appSlug } = await params;
+  const app = getApp(appSlug);
   if (!app || !appHasNav(app, "changelog")) notFound();
 
   const changelog = getAppChangelog(app.slug);

@@ -1,6 +1,6 @@
 import { KeyRound } from "lucide-react";
-import ToolShell from "@/app/components/ToolShell";
-import ApiManager from "@/app/components/ApiManager";
+import ToolShell from "@/components/tools/ToolShell";
+import ApiManager from "@/components/tools/ApiManager";
 
 export default function SettingsPage() {
   return (

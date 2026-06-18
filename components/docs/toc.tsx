@@ -1,4 +1,4 @@
-import type { TableOfContents } from "fumadocs-core/server";
+import type { TableOfContents } from "fumadocs-core/toc";
 
 /** Right-rail table of contents. Hidden below lg (§5.5). */
 export function Toc({ items }: { items: TableOfContents }) {

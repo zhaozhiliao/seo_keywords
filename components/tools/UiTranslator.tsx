@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { Loader2, Copy, Check, Languages, Wand2, RotateCcw, ChevronDown } from "lucide-react";
-import { useAiKeys } from "@/app/context/AiKeysContext";
-import { getProvider } from "@/app/lib/ai/providers";
-import { aiChat, extractJson } from "@/app/lib/ai/client";
+import { useAiKeys } from "@/components/context/AiKeysContext";
+import { getProvider } from "@/lib/ai/providers";
+import { aiChat, extractJson } from "@/lib/ai/client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import AiStatusHint from "@/app/components/AiStatusHint";
+import AiStatusHint from "@/components/tools/AiStatusHint";
 
 const TARGET_LANGS = [
   { code: "en", label: "English" },

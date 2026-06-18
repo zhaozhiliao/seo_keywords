@@ -1,6 +1,6 @@
 "use client";
 
-import { LANG_MAP, ALL_LANGS } from "@/app/lib/languages";
+import { LANG_MAP, ALL_LANGS } from "@/lib/languages";
 import { Check } from "lucide-react";
 
 interface Props {

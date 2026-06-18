@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { Loader2, Copy, Check, Link2, Wand2 } from "lucide-react";
-import { useAiKeys } from "@/app/context/AiKeysContext";
-import { getProvider } from "@/app/lib/ai/providers";
-import { aiChat, extractJson } from "@/app/lib/ai/client";
+import { useAiKeys } from "@/components/context/AiKeysContext";
+import { getProvider } from "@/lib/ai/providers";
+import { aiChat, extractJson } from "@/lib/ai/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import AiStatusHint from "@/app/components/AiStatusHint";
+import AiStatusHint from "@/components/tools/AiStatusHint";
 
 interface SlugSuggestion {
   slug: string;

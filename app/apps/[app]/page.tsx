@@ -14,14 +14,16 @@ const NAV_DESC: Record<string, string> = {
   changelog: "每个版本改了什么",
 };
 
-export function generateMetadata({ params }: { params: { app: string } }): Metadata {
-  const app = getApp(params.app);
+export async function generateMetadata({ params }: { params: Promise<{ app: string }> }): Promise<Metadata> {
+  const { app: appSlug } = await params;
+  const app = getApp(appSlug);
   if (!app) return {};
   return buildMetadata({ title: app.name, description: app.tagline, path: `/apps/${app.slug}` });
 }
 
-export default function AppHomePage({ params }: { params: { app: string } }) {
-  const app = getApp(params.app);
+export default async function AppHomePage({ params }: { params: Promise<{ app: string }> }) {
+  const { app: appSlug } = await params;
+  const app = getApp(appSlug);
   if (!app) notFound();
   const base = `/apps/${app.slug}`;
 

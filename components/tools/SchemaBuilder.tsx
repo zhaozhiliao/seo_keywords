@@ -2,22 +2,22 @@
 
 import { useState, useMemo } from "react";
 import { Code2, Copy, Check, Plus, Trash2, Loader2, Wand2, ChevronDown } from "lucide-react";
-import { useAiKeys } from "@/app/context/AiKeysContext";
-import { getProvider } from "@/app/lib/ai/providers";
-import { aiChat, extractJson } from "@/app/lib/ai/client";
+import { useAiKeys } from "@/components/context/AiKeysContext";
+import { getProvider } from "@/lib/ai/providers";
+import { aiChat, extractJson } from "@/lib/ai/client";
 import {
   SCHEMA_TYPES,
   buildJsonLd,
   type SchemaFormState,
   type FaqItem,
   type CrumbItem,
-} from "@/app/lib/schema-types";
+} from "@/lib/schema-types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import AiStatusHint from "@/app/components/AiStatusHint";
+import AiStatusHint from "@/components/tools/AiStatusHint";
 
 export default function SchemaBuilder() {
   const { selectedProvider, activeKey, hasActiveKey } = useAiKeys();

@@ -1,8 +1,8 @@
 "use client";
 
-import { COUNTRY_MAP } from "@/app/lib/countries";
-import { LANG_MAP } from "@/app/lib/languages";
-import type { LangVolumes } from "@/app/lib/ahrefs";
+import { COUNTRY_MAP } from "@/lib/countries";
+import { LANG_MAP } from "@/lib/languages";
+import type { LangVolumes } from "@/lib/ahrefs";
 
 export interface BatchRow {
   keywords: Record<string, string>;

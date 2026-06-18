@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import SingleQuery from "@/app/components/SingleQuery";
-import BatchQuery from "@/app/components/BatchQuery";
-import EeatEvaluator from "@/app/components/EeatEvaluator";
-import SlugGenerator from "@/app/components/SlugGenerator";
-import SchemaBuilder from "@/app/components/SchemaBuilder";
-import UiTranslator from "@/app/components/UiTranslator";
+import SingleQuery from "@/components/tools/SingleQuery";
+import BatchQuery from "@/components/tools/BatchQuery";
+import EeatEvaluator from "@/components/tools/EeatEvaluator";
+import SlugGenerator from "@/components/tools/SlugGenerator";
+import SchemaBuilder from "@/components/tools/SchemaBuilder";
+import UiTranslator from "@/components/tools/UiTranslator";
 
 const skeleton = <div className="h-48 animate-pulse rounded-xl bg-bg-subtle" />;
 

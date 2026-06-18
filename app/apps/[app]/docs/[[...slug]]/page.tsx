@@ -12,21 +12,23 @@ export function generateStaticParams() {
     .flatMap((a) => getAppDocsNav(a.slug).map((n) => ({ app: a.slug, slug: n.slugs })));
 }
 
-export function generateMetadata({ params }: { params: { app: string; slug?: string[] } }): Metadata {
-  const doc = getAppDoc(params.app, params.slug ?? []);
+export async function generateMetadata({ params }: { params: Promise<{ app: string; slug?: string[] }> }): Promise<Metadata> {
+  const { app, slug } = await params;
+  const doc = getAppDoc(app, slug ?? []);
   if (!doc) return {};
   return buildMetadata({
     title: doc.title,
     description: doc.description,
-    path: `/apps/${params.app}/docs${params.slug?.length ? "/" + params.slug.join("/") : ""}`,
+    path: `/apps/${app}/docs${slug?.length ? "/" + slug.join("/") : ""}`,
   });
 }
 
-export default function AppDocPage({ params }: { params: { app: string; slug?: string[] } }) {
-  const app = getApp(params.app);
+export default async function AppDocPage({ params }: { params: Promise<{ app: string; slug?: string[] }> }) {
+  const { app: appSlug, slug } = await params;
+  const app = getApp(appSlug);
   if (!app || !appHasNav(app, "docs")) notFound();
 
-  const doc = getAppDoc(params.app, params.slug ?? []);
+  const doc = getAppDoc(appSlug, slug ?? []);
   if (!doc) notFound();
 
   return (
