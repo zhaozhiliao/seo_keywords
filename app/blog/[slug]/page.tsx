@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { Container } from "@/components/ui/container";
+import { Breadcrumbs } from "@/components/nav/breadcrumbs";
 import { PostHeader } from "@/components/blog/post-header";
 import { MDXContent } from "@/components/mdx/mdx-content";
 import { getBlogPost, getBlogPosts } from "@/lib/content";
@@ -32,9 +31,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <Container width="content" className="py-12">
-      <Link href="/blog" className="mb-8 inline-flex items-center gap-1.5 text-sm text-fg-muted transition-colors hover:text-brand">
-        <ArrowLeft size={14} /> 返回博客
-      </Link>
+      <Breadcrumbs
+        items={[{ label: "首页", href: "/" }, { label: "博客", href: "/blog" }, { label: post.title }]}
+      />
       <article>
         <PostHeader title={post.title} description={post.description} date={post.date} tags={post.tags} />
         <MDXContent body={post.body} />

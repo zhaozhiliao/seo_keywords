@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
+import { Breadcrumbs } from "@/components/nav/breadcrumbs";
 import { TOOLS, type ToolMeta } from "@/app/tools/registry";
 import { buildMetadata } from "@/lib/seo";
 
@@ -14,6 +15,7 @@ export const metadata: Metadata = buildMetadata({
 export default function ToolsPage() {
   return (
     <Container className="py-12">
+      <Breadcrumbs items={[{ label: "首页", href: "/" }, { label: "工具" }]} />
       <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">工具</h1>
         <p className="mt-2 text-fg-muted">关键词研究与 AI 辅助的内容/SEO 工具，{TOOLS.length} 个可用。</p>

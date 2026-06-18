@@ -26,27 +26,14 @@ export const blog = defineCollections({
   schema: blogSchema,
 });
 
-/* ── App content — one collection each, filtered by app slug in lib/content.ts.
-   Relative paths look like `app1/docs/getting-started.mdx`. ── */
+/* ── App content — a single docs collection per App, filtered by app slug in
+   lib/content.ts. Changelog lives inside the docs tree. Relative paths look
+   like `app1/docs/getting-started.mdx`. ── */
 export const appDocs = defineCollections({
   type: "doc",
   dir: "content/apps",
   files: ["*/docs/**/*.mdx"],
   schema: appDocSchema,
-});
-
-export const appBlog = defineCollections({
-  type: "doc",
-  dir: "content/apps",
-  files: ["*/blog/**/*.mdx"],
-  schema: blogSchema,
-});
-
-export const appChangelog = defineCollections({
-  type: "doc",
-  dir: "content/apps",
-  files: ["*/changelog.mdx"],
-  schema: blogSchema,
 });
 
 export default defineConfig({

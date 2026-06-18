@@ -3,7 +3,7 @@
  * never import `.source` directly. App content lives in one flat collection
  * each and is filtered by app slug here (see ARCHITECTURE.md §4).
  */
-import { blog, appDocs, appBlog, appChangelog } from "@/.source/server";
+import { blog, appDocs } from "@/.source/server";
 import type { ComponentType } from "react";
 import type { TableOfContents } from "fumadocs-core/toc";
 
@@ -83,21 +83,7 @@ export function getAppDoc(app: string, slugs: string[] = []): DocEntry | undefin
   });
 }
 
-/* ══════════════ App blog ══════════════ */
-const appBlogOf = (app: string) =>
-  (appBlog as unknown as DocEntry[]).filter((p) => p.info.path.startsWith(`${app}/blog/`));
-
-export function getAppBlogPosts(app: string): BlogMeta[] {
-  return appBlogOf(app)
-    .map((p) => ({ slug: tailSlugs(p.info.path, "blog").join("/"), title: p.title, description: p.description, date: p.date, tags: p.tags }))
-    .sort(byDateDesc);
-}
-
-export function getAppBlogPost(app: string, slug: string): DocEntry | undefined {
-  return appBlogOf(app).find((p) => tailSlugs(p.info.path, "blog").join("/") === slug);
-}
-
-/* ══════════════ App changelog ══════════════ */
-export function getAppChangelog(app: string): DocEntry | undefined {
-  return (appChangelog as unknown as DocEntry[]).find((p) => p.info.path === `${app}/changelog.mdx`);
+/** Whether an App has any docs content (drives the intro CTA + docs route). */
+export function appHasDocs(app: string): boolean {
+  return appDocsOf(app).length > 0;
 }

@@ -2,14 +2,14 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { MDXContent } from "@/components/mdx/mdx-content";
 import { Toc } from "@/components/docs/toc";
-import { getApp, appHasNav, getAllApps } from "@/lib/apps";
+import { getApp, getAllApps } from "@/lib/apps";
 import { getAppDoc, getAppDocsNav } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
-  return getAllApps()
-    .filter((a) => a.nav.includes("docs"))
-    .flatMap((a) => getAppDocsNav(a.slug).map((n) => ({ app: a.slug, slug: n.slugs })));
+  return getAllApps().flatMap((a) =>
+    getAppDocsNav(a.slug).map((n) => ({ app: a.slug, slug: n.slugs }))
+  );
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ app: string; slug?: string[] }> }): Promise<Metadata> {
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ app: stri
 export default async function AppDocPage({ params }: { params: Promise<{ app: string; slug?: string[] }> }) {
   const { app: appSlug, slug } = await params;
   const app = getApp(appSlug);
-  if (!app || !appHasNav(app, "docs")) notFound();
+  if (!app) notFound();
 
   const doc = getAppDoc(appSlug, slug ?? []);
   if (!doc) notFound();

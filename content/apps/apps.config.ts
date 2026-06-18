@@ -1,10 +1,9 @@
 /**
  * App registry — the single source of truth (ARCHITECTURE.md §3).
- * Add an App = append one entry here + create content/apps/<slug>/.
- * No route code changes required.
+ * Add an App = append one entry here + create content/apps/<slug>/docs/*.mdx.
+ * No route code changes required. Whether an App shows docs is inferred from
+ * the presence of docs content (the changelog lives inside the docs tree).
  */
-export type AppNav = "docs" | "blog" | "changelog";
-
 export interface AppConfig {
   /** URL segment, must match the content/apps/<slug>/ directory. */
   slug: string;
@@ -13,8 +12,6 @@ export interface AppConfig {
   tagline: string;
   /** Optional: overrides the site indigo for this App's subtree. */
   brandColor?: string;
-  /** Which subpages are enabled. Others 404. */
-  nav: AppNav[];
   external?: {
     github?: string;
     download?: string;
@@ -28,7 +25,6 @@ export const apps: AppConfig[] = [
     name: "App One",
     tagline: "一句话讲清楚这个 App 解决什么问题。",
     brandColor: "#4F46E5",
-    nav: ["docs", "blog", "changelog"],
     external: { github: "https://github.com/wikipie/app-one" },
   },
 ];

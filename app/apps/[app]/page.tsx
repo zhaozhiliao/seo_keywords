@@ -1,19 +1,11 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { AppHero } from "@/components/app/app-hero";
 import { Breadcrumbs } from "@/components/nav/breadcrumbs";
 import { getApp } from "@/lib/apps";
+import { appHasDocs } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
-
-const NAV_LABEL: Record<string, string> = { docs: "文档", blog: "博客", changelog: "更新日志" };
-const NAV_DESC: Record<string, string> = {
-  docs: "安装、配置与使用说明",
-  blog: "版本动态与背后的想法",
-  changelog: "每个版本改了什么",
-};
 
 export async function generateMetadata({ params }: { params: Promise<{ app: string }> }): Promise<Metadata> {
   const { app: appSlug } = await params;
@@ -26,28 +18,11 @@ export default async function AppHomePage({ params }: { params: Promise<{ app: s
   const { app: appSlug } = await params;
   const app = getApp(appSlug);
   if (!app) notFound();
-  const base = `/apps/${app.slug}`;
 
   return (
     <Container width="content" className="pt-8">
-      <Breadcrumbs items={[{ label: "Apps", href: "/apps" }, { label: app.name }]} />
-      <AppHero app={app} />
-
-      <div className="grid gap-3 pb-16 sm:grid-cols-3">
-        {app.nav.map((n) => (
-          <Link
-            key={n}
-            href={`${base}/${n}`}
-            className="group rounded-lg border border-border bg-bg-card p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
-          >
-            <div className="flex items-center justify-between">
-              <span className="font-semibold transition-colors group-hover:text-brand">{NAV_LABEL[n]}</span>
-              <ArrowUpRight size={15} className="text-fg-subtle transition-colors group-hover:text-brand" />
-            </div>
-            <p className="mt-1 text-sm text-fg-muted">{NAV_DESC[n]}</p>
-          </Link>
-        ))}
-      </div>
+      <Breadcrumbs items={[{ label: "首页", href: "/" }, { label: "Apps", href: "/apps" }, { label: app.name }]} />
+      <AppHero app={app} hasDocs={appHasDocs(app.slug)} />
     </Container>
   );
 }

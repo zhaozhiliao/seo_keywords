@@ -23,13 +23,6 @@ export function AppCard({ app }: { app: AppConfig }) {
       </div>
       <h3 className="text-base font-semibold tracking-tight transition-colors group-hover:text-brand">{app.name}</h3>
       <p className="mt-1.5 line-clamp-2 flex-1 text-sm text-fg-muted">{app.tagline}</p>
-      <div className="mt-3 flex flex-wrap gap-1.5">
-        {app.nav.map((n) => (
-          <span key={n} className="rounded-sm bg-bg-subtle px-1.5 py-0.5 text-[11px] uppercase tracking-wide text-fg-subtle">
-            {n}
-          </span>
-        ))}
-      </div>
     </Link>
   );
 }

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/container";
 import { DocsSidebar } from "@/components/docs/docs-sidebar";
 import { Breadcrumbs } from "@/components/nav/breadcrumbs";
-import { getApp, appHasNav } from "@/lib/apps";
+import { getApp } from "@/lib/apps";
 import { getAppDocsNav } from "@/lib/content";
 
 export default async function AppDocsLayout({
@@ -14,14 +14,14 @@ export default async function AppDocsLayout({
 }) {
   const { app: appSlug } = await params;
   const app = getApp(appSlug);
-  if (!app || !appHasNav(app, "docs")) notFound();
-
-  const items = getAppDocsNav(app.slug).map((n) => ({ title: n.title, href: n.href }));
+  const items = getAppDocsNav(appSlug).map((n) => ({ title: n.title, href: n.href }));
+  if (!app || items.length === 0) notFound();
 
   return (
     <Container className="py-10">
       <Breadcrumbs
         items={[
+          { label: "首页", href: "/" },
           { label: "Apps", href: "/apps" },
           { label: app.name, href: `/apps/${app.slug}` },
           { label: "文档" },

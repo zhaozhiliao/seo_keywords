@@ -52,8 +52,8 @@
   --transition: 0.18s ease;
 
   /* Layout widths */
-  --content-max: 720px;
-  --page-max: 1100px;
+  --content-max: 800px;
+  --page-max: 1440px;
 }
 
 :root.dark,

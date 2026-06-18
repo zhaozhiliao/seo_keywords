@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import type { AppConfig } from "@/lib/apps";
 
 /** App intro hero on /apps/[app]. */
-export function AppHero({ app }: { app: AppConfig }) {
+export function AppHero({ app, hasDocs }: { app: AppConfig; hasDocs: boolean }) {
   const base = `/apps/${app.slug}`;
   const ext = app.external ?? {};
   return (
@@ -19,7 +19,7 @@ export function AppHero({ app }: { app: AppConfig }) {
       <p className="mx-auto mt-4 max-w-xl text-pretty text-lg text-fg-muted">{app.tagline}</p>
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-        {app.nav.includes("docs") && (
+        {hasDocs && (
           <Button render={<Link href={`${base}/docs`} />} className="gap-2">
             阅读文档 <ArrowRight size={16} />
           </Button>

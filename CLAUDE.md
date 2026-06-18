@@ -2,9 +2,10 @@
 
 **Wikipie** (`ahrefs-next`) — a personal, Chinese-language website that bundles, in **one
 Next.js App Router project**: a personal site (home + blog + docs), an SEO **tools** suite, and
-the intro / docs / blog / changelog for **multiple Apps**. Core principle: **adding an App = one
-config entry + a content directory, with zero route-code changes.** Single-user, no auth, no
-backend DB — tool credentials live in the browser.
+an **intro + docs space for multiple Apps** (the changelog is folded into each App's docs tree;
+there is no per-App blog — App announcements go to the personal blog). Core principle: **adding an
+App = one config entry + a content directory, with zero route-code changes.** Single-user, no
+auth, no backend DB — tool credentials live in the browser.
 
 ## Stack
 
@@ -29,15 +30,14 @@ backend DB — tool credentials live in the browser.
 /tools               /tools/[slug] tools hub + a tool
 /apps                              App overview
 /apps/[app]                        App intro (hero)
-/apps/[app]/docs/[[...slug]]       App docs
-/apps/[app]/blog     .../[slug]    App blog
-/apps/[app]/changelog              App changelog
+/apps/[app]/docs/[[...slug]]       App docs (changelog is a page in this tree)
 /settings                          unified API-key management
 /og  /sitemap.xml  /robots.txt     SEO endpoints
 ```
 
-Which App subpages exist is driven by that App's `nav` field; a disabled subpage returns 404.
-All blog/docs/changelog/tool/app pages are **SSG** via `generateStaticParams`.
+An App shows a docs space iff it has docs content (inferred via `appHasDocs`); otherwise the docs
+route 404s. Every page carries a **unified breadcrumb** (the `Breadcrumbs` component, rooted at
+首页). All blog/docs/tool/app pages are **SSG** via `generateStaticParams`.
 
 ## Directory layout (consolidated — keep it this way)
 
@@ -49,7 +49,7 @@ at the **root** in `lib/` and `components/`. Do not reintroduce `app/lib`, `app/
 - `content/` — all MDX + the App registry, separated from code:
   - `content/blog/*.mdx`, `content/docs/*.mdx` (+ `meta.json` for sidebar order)
   - `content/apps/apps.config.ts` — **App registry (single source of truth)**
-  - `content/apps/<slug>/{docs,blog}/*.mdx`, `content/apps/<slug>/changelog.mdx`
+  - `content/apps/<slug>/docs/*.mdx` (incl. `changelog.mdx`, `order: 99` to sort it last)
 - `components/` — `ui/` (shadcn primitives), `nav/`, `footer/`, `theme/`, `docs/`, `blog/`,
   `app/`, `mdx/`, `context/` (client providers), `tools/` (the SEO tool feature components).
 - `lib/` — `apps.ts`, `content.ts`, `source.ts`, `seo.ts`, `format.ts`, `utils.ts` (just `cn()`),
@@ -60,19 +60,20 @@ at the **root** in `lib/` and `components/`. Do not reintroduce `app/lib`, `app/
 ## Config-driven Apps (core mechanism)
 
 `content/apps/apps.config.ts` is the only source of truth. `AppConfig`: `slug`, `name`,
-`tagline`, optional `brandColor`, `nav: ('docs'|'blog'|'changelog')[]`, optional `external`.
+`tagline`, optional `brandColor`, optional `external`. (No `nav` field — docs presence is inferred
+from content.)
 
-- `lib/apps.ts` — `getApp(slug)` / `getAllApps()` / `appHasNav()`.
+- `lib/apps.ts` — `getApp(slug)` / `getAllApps()`. `appHasDocs(slug)` lives in `lib/content.ts`.
 - `app/apps/[app]/layout.tsx` reads the config (`notFound()` if missing) and injects
   `brandColor` as the CSS var `--brand` for that App's subtree.
-- Each subpage validates `appHasNav(app, …)` and 404s if disabled.
-- **Add an App**: append to the `apps` array + create `content/apps/<slug>/`. No route code.
+- The docs layout/page 404 when the App has no docs content.
+- **Add an App**: append to the `apps` array + create `content/apps/<slug>/docs/`. No route code.
 
 ## Content system (Fumadocs)
 
 - `source.config.ts` defines sources: `docs` (`defineDocs`, personal, with page tree), `blog`
-  (personal), and `appDocs` / `appBlog` / `appChangelog` (`defineCollections` globbing
-  `content/apps/*/…`). App content is filtered by slug in `lib/content.ts`.
+  (personal), and `appDocs` (`defineCollections` globbing `content/apps/*/docs/**`). App docs are
+  filtered by slug in `lib/content.ts`.
 - `lib/content.ts` is the **only** place that imports the generated `@/.source/server`. It
   derives per-App slugs from each entry's `info.path` (e.g. `app1/docs/configuration.mdx`).
 - `lib/source.ts` builds the personal docs `loader()` (sidebar tree + `getPage`/`generateParams`).
@@ -95,7 +96,7 @@ at the **root** in `lib/` and `components/`. Do not reintroduce `app/lib`, `app/
   class on `<html>`; `suppressHydrationWarning` is set).
 - Visual language: generous whitespace, soft large radii, `shadow-sm` → `hover:shadow-md` with a
   subtle `hover:-translate-y-0.5` lift, sticky `backdrop-blur` nav, content capped at `--page-max`
-  (1100px), reading width `--content-max` (720px). MDX prose styled via `.prose` in globals.css.
+  (1440px), reading width `--content-max` (800px). MDX prose styled via `.prose` in globals.css.
 - One font family for headings + body (Inter); hierarchy via weight/size. No multi-font stacks, no
   big color-block backgrounds, no heavy animations.
 

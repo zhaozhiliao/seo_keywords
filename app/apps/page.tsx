@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { AppCard } from "@/components/app/app-card";
+import { Breadcrumbs } from "@/components/nav/breadcrumbs";
 import { getAllApps } from "@/lib/apps";
 import { buildMetadata } from "@/lib/seo";
 
@@ -14,6 +15,7 @@ export default function AppsPage() {
   const apps = getAllApps();
   return (
     <Container className="py-12">
+      <Breadcrumbs items={[{ label: "首页", href: "/" }, { label: "Apps" }]} />
       <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">Apps</h1>
         <p className="mt-2 text-fg-muted">我做的几个 App，点进去看介绍、文档与更新日志。</p>

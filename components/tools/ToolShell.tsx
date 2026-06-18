@@ -1,28 +1,26 @@
-import Link from "next/link";
-import { ChevronRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/container";
+import { Breadcrumbs, type Crumb } from "@/components/nav/breadcrumbs";
 
 interface ToolShellProps {
   title: string;
   nameEn: string;
   description: string;
   icon: LucideIcon;
+  /** Breadcrumb trail; defaults to 首页 › 工具 › <title>. */
+  crumbs?: Crumb[];
   children: React.ReactNode;
 }
 
 /** Breadcrumb + title block for a single tool. Global nav/footer come from
     the root layout — this only renders the in-page chrome. */
-export default function ToolShell({ title, nameEn, description, icon: Icon, children }: ToolShellProps) {
+export default function ToolShell({ title, nameEn, description, icon: Icon, crumbs, children }: ToolShellProps) {
+  const trail: Crumb[] =
+    crumbs ?? [{ label: "首页", href: "/" }, { label: "工具", href: "/tools" }, { label: title }];
+
   return (
     <Container className="py-10">
-      <nav className="mb-5 flex items-center gap-1.5 text-xs">
-        <Link href="/tools" className="text-fg-muted transition-colors hover:text-brand">
-          工具
-        </Link>
-        <ChevronRight size={13} className="text-fg-subtle" aria-hidden="true" />
-        <span className="font-medium text-fg">{title}</span>
-      </nav>
+      <Breadcrumbs items={trail} />
 
       <div className="mb-8">
         <div className="mb-3 flex items-center gap-3">
