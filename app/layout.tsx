@@ -3,8 +3,6 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import { SiteNav } from "@/components/nav/site-nav";
-import { SiteFooter } from "@/components/footer/site-footer";
 import { ApiKeyProvider } from "@/components/context/ApiKeyContext";
 import { AiKeysProvider } from "@/components/context/AiKeysContext";
 
@@ -20,31 +18,20 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0A0A0A" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
   ],
 };
 
+/** Root layout = document shell + providers only. Page chrome (nav/footer) is
+    provided per area: the personal site via (site)/layout, an App site via
+    AppShell — so the two never stack. */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="zh-CN" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body className="min-h-screen bg-bg font-sans text-fg antialiased">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-brand focus:px-4 focus:py-2 focus:text-white focus:outline-none"
-        >
-          跳到主要内容
-        </a>
         <ThemeProvider>
           <ApiKeyProvider>
-            <AiKeysProvider>
-              <div className="flex min-h-screen flex-col">
-                <SiteNav />
-                <main id="main-content" className="flex-1">
-                  {children}
-                </main>
-                <SiteFooter />
-              </div>
-            </AiKeysProvider>
+            <AiKeysProvider>{children}</AiKeysProvider>
           </ApiKeyProvider>
         </ThemeProvider>
       </body>

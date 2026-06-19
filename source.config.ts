@@ -14,6 +14,14 @@ const appDocSchema = frontmatterSchema.extend({
   order: z.number().optional(),
 });
 
+/* App changelog entry — one MDX file per version. */
+const changelogSchema = z.object({
+  version: z.string(),
+  date: z.string().or(z.date()),
+  title: z.string(),
+  description: z.string().optional(),
+});
+
 /* ── Personal docs (with page tree via meta.json) ── */
 export const docs = defineDocs({
   dir: "content/docs",
@@ -26,14 +34,21 @@ export const blog = defineCollections({
   schema: blogSchema,
 });
 
-/* ── App content — a single docs collection per App, filtered by app slug in
-   lib/content.ts. Changelog lives inside the docs tree. Relative paths look
-   like `app1/docs/getting-started.mdx`. ── */
+/* ── App content — docs + changelog are parallel sections per App, filtered by
+   app slug in lib/content.ts. Relative paths look like
+   `app1/docs/getting-started.mdx` and `app1/changelog/v1.8.0.mdx`. ── */
 export const appDocs = defineCollections({
   type: "doc",
   dir: "content/apps",
   files: ["*/docs/**/*.mdx"],
   schema: appDocSchema,
+});
+
+export const appChangelog = defineCollections({
+  type: "doc",
+  dir: "content/apps",
+  files: ["*/changelog/*.mdx"],
+  schema: changelogSchema,
 });
 
 export default defineConfig({

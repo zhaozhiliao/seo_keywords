@@ -21,23 +21,39 @@ auth, no backend DB — tool credentials live in the browser.
 - `xlsx` for spreadsheet import/export in the keyword tool.
 - Dev server: **port 3001** (`npm run dev`). Build: `npm run build`. Lint: `npm run lint`.
 
-## Route map
+## Two kinds of site (subdomain split)
+
+The personal site and each App are **separate sites** with separate chrome:
+
+- **Personal site** — the root domain (`wikipie.com`). Routes live in the `app/(site)/` route
+  group, wrapped by `SiteShell` (global `SiteNav` + `SiteFooter`).
+- **App site** — each App is its own site at `<slug>.<root>` (e.g. `app1.wikipie.com`).
+  `middleware.ts` rewrites `<slug>.<root>/<path>` → the internal `/apps/<slug>/<path>` route.
+  App routes are wrapped by `AppShell` (the App's own nav with parallel tabs + footer), **not**
+  the global nav. Root domain(s) come from `NEXT_PUBLIC_ROOT_DOMAIN` (comma-separated; defaults to
+  `localhost:3001`, where `app1.localhost:3001` works for local dev).
 
 ```
+# Personal site (root domain), in app/(site)/
 /                                  personal home
 /blog                /blog/[slug]  personal blog
 /docs/[[...slug]]                  personal docs (sidebar + TOC)
 /tools               /tools/[slug] tools hub + a tool
-/apps                              App overview
-/apps/[app]                        App intro (hero)
-/apps/[app]/docs/[[...slug]]       App docs (changelog is a page in this tree)
+/apps                              App overview (cards link out to App subdomains)
 /settings                          unified API-key management
 /og  /sitemap.xml  /robots.txt     SEO endpoints
+
+# App site (<slug>.<root>), internal route /apps/[app]/*
+/            (→ /apps/[app])           App intro (hero) — tab 介绍
+/docs/...    (→ /apps/[app]/docs/...)  App docs (sidebar + TOC) — tab 文档
+/changelog   (→ /apps/[app]/changelog) version timeline — tab 更新日志
 ```
 
-An App shows a docs space iff it has docs content (inferred via `appHasDocs`); otherwise the docs
-route 404s. Every page carries a **unified breadcrumb** (the `Breadcrumbs` component, rooted at
-首页). All blog/docs/tool/app pages are **SSG** via `generateStaticParams`.
+**文档 and 更新日志 are parallel** top-level tabs in the App nav (not changelog-nested-in-docs).
+App-internal links are **root-relative** (`/docs`, `/changelog`) because the App is served at its
+subdomain root; cross-site links use `appBaseUrl(slug)` from `lib/app-url.ts`. An App shows docs
+iff it has docs content (`appHasDocs`) and changelog iff `appHasChangelog`. All
+blog/docs/tool/app pages are **SSG** via `generateStaticParams`.
 
 ## Directory layout (consolidated — keep it this way)
 
@@ -45,15 +61,21 @@ route 404s. Every page carries a **unified breadcrumb** (the `Breadcrumbs` compo
 at the **root** in `lib/` and `components/`. Do not reintroduce `app/lib`, `app/components`, or
 `app/context`.
 
-- `app/` — routes + layouts; `app/api/<name>/route.ts` (`runtime = "nodejs"`).
+- `app/` — routes + layouts. `app/(site)/` route group = personal site (home, blog, docs, tools,
+  settings); `app/apps/[app]/` = App sites (wrapped by `AppShell`); `app/apps/page.tsx` = overview
+  (wraps `SiteShell` itself). `app/api/<name>/route.ts` (`runtime = "nodejs"`). `middleware.ts` at
+  repo root handles subdomain rewrites.
 - `content/` — all MDX + the App registry, separated from code:
   - `content/blog/*.mdx`, `content/docs/*.mdx` (+ `meta.json` for sidebar order)
   - `content/apps/apps.config.ts` — **App registry (single source of truth)**
-  - `content/apps/<slug>/docs/*.mdx` (incl. `changelog.mdx`, `order: 99` to sort it last)
-- `components/` — `ui/` (shadcn primitives), `nav/`, `footer/`, `theme/`, `docs/`, `blog/`,
-  `app/`, `mdx/`, `context/` (client providers), `tools/` (the SEO tool feature components).
-- `lib/` — `apps.ts`, `content.ts`, `source.ts`, `seo.ts`, `format.ts`, `utils.ts` (just `cn()`),
-  plus tool domain logic: `ahrefs.ts`, `ai/`, `countries.ts`, `languages.ts`, `schema-types.ts`.
+  - `content/apps/<slug>/docs/*.mdx` (sidebar via `order`) and `content/apps/<slug>/changelog/*.mdx`
+    (one MDX per version: `version`, `date`, `title`)
+- `components/` — `ui/` (shadcn primitives), `nav/`, `footer/`, `theme/`, `layout/` (`SiteShell`),
+  `docs/`, `blog/`, `app/` (App-site chrome: `AppShell`/`AppSiteNav`/`changelog-timeline`/…),
+  `mdx/`, `context/` (client providers), `tools/` (the SEO tool feature components).
+- `lib/` — `apps.ts`, `content.ts`, `source.ts`, `seo.ts`, `format.ts`, `app-url.ts` (subdomain
+  URLs + `ROOT_DOMAINS`), `utils.ts` (just `cn()`), plus tool domain logic: `ahrefs.ts`, `ai/`,
+  `countries.ts`, `languages.ts`, `schema-types.ts`.
 - `source.config.ts` — Fumadocs content-source definitions. `.source/` is generated & gitignored.
 - Path alias `@/*` → repo root: `@/lib/...`, `@/components/...`, `@/content/...`.
 
@@ -63,17 +85,20 @@ at the **root** in `lib/` and `components/`. Do not reintroduce `app/lib`, `app/
 `tagline`, optional `brandColor`, optional `external`. (No `nav` field — docs presence is inferred
 from content.)
 
-- `lib/apps.ts` — `getApp(slug)` / `getAllApps()`. `appHasDocs(slug)` lives in `lib/content.ts`.
-- `app/apps/[app]/layout.tsx` reads the config (`notFound()` if missing) and injects
-  `brandColor` as the CSS var `--brand` for that App's subtree.
-- The docs layout/page 404 when the App has no docs content.
-- **Add an App**: append to the `apps` array + create `content/apps/<slug>/docs/`. No route code.
+- `lib/apps.ts` — `getApp(slug)` / `getAllApps()`. `appHasDocs(slug)` / `appHasChangelog(slug)` /
+  `getAppChangelog(slug)` live in `lib/content.ts`.
+- `app/apps/[app]/layout.tsx` reads the config (`notFound()` if missing) and renders `AppShell`,
+  which injects `brandColor` as the CSS var `--brand` for that App's subtree.
+- The docs/changelog routes 404 when the App lacks that content.
+- **Add an App**: append to the `apps` array + create `content/apps/<slug>/docs/` (and optionally
+  `changelog/`). No route code. For its own subdomain, add a DNS record → the deployment; the
+  middleware already maps `<slug>.<root>`.
 
 ## Content system (Fumadocs)
 
 - `source.config.ts` defines sources: `docs` (`defineDocs`, personal, with page tree), `blog`
-  (personal), and `appDocs` (`defineCollections` globbing `content/apps/*/docs/**`). App docs are
-  filtered by slug in `lib/content.ts`.
+  (personal), `appDocs` (glob `content/apps/*/docs/**`) and `appChangelog` (glob
+  `content/apps/*/changelog/*`). App content is filtered by slug in `lib/content.ts`.
 - `lib/content.ts` is the **only** place that imports the generated `@/.source/server`. It
   derives per-App slugs from each entry's `info.path` (e.g. `app1/docs/configuration.mdx`).
 - `lib/source.ts` builds the personal docs `loader()` (sidebar tree + `getPage`/`generateParams`).

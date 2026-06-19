@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Breadcrumbs } from "@/components/nav/breadcrumbs";
-import { TOOLS, type ToolMeta } from "@/app/tools/registry";
+import { TOOLS, type ToolMeta } from "@/app/(site)/tools/registry";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({

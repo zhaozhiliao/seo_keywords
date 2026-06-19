@@ -1,27 +1,35 @@
 import type { MetadataRoute } from "next";
 import { docsSource } from "@/lib/source";
-import { TOOLS } from "@/app/tools/registry";
+import { TOOLS } from "@/app/(site)/tools/registry";
 import { getAllApps } from "@/lib/apps";
-import { getBlogPosts, getAppDocsNav } from "@/lib/content";
+import { getBlogPosts, getAppDocsNav, appHasChangelog } from "@/lib/content";
+import { appBaseUrl } from "@/lib/app-url";
 
 const BASE = "https://wikipie.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = new Set<string>(["/", "/blog", "/docs", "/tools", "/apps"]);
+  const now = new Date();
+  const entries: MetadataRoute.Sitemap = [];
+  const add = (url: string) => entries.push({ url, lastModified: now });
 
-  getBlogPosts().forEach((p) => paths.add(`/blog/${p.slug}`));
-  docsSource.getPages().forEach((pg) => paths.add(pg.url));
-  TOOLS.forEach((t) => paths.add(`/tools/${t.slug}`));
+  // Personal site (wikipie.com)
+  const personal = new Set<string>(["/", "/blog", "/docs", "/tools", "/apps"]);
+  getBlogPosts().forEach((p) => personal.add(`/blog/${p.slug}`));
+  docsSource.getPages().forEach((pg) => personal.add(pg.url));
+  TOOLS.forEach((t) => personal.add(`/tools/${t.slug}`));
+  personal.forEach((p) => add(`${BASE}${p}`));
 
+  // Each App is its own site on its subdomain
   for (const app of getAllApps()) {
-    paths.add(`/apps/${app.slug}`);
+    const base = appBaseUrl(app.slug);
+    add(base);
     const docs = getAppDocsNav(app.slug);
     if (docs.length) {
-      paths.add(`/apps/${app.slug}/docs`);
-      docs.forEach((n) => paths.add(n.href));
+      add(`${base}/docs`);
+      docs.forEach((n) => add(`${base}/docs${n.slugs.length ? "/" + n.slugs.join("/") : ""}`));
     }
+    if (appHasChangelog(app.slug)) add(`${base}/changelog`);
   }
 
-  const now = new Date();
-  return Array.from(paths).map((p) => ({ url: `${BASE}${p}`, lastModified: now }));
+  return entries;
 }

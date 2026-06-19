@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ToolShell from "@/components/tools/ToolShell";
-import { TOOLS, getTool } from "@/app/tools/registry";
+import { TOOLS, getTool } from "@/app/(site)/tools/registry";
 import { ToolBody } from "./tool-body";
 import { buildMetadata } from "@/lib/seo";
 

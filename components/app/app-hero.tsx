@@ -3,9 +3,9 @@ import { ExternalLink, Download, Globe, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { AppConfig } from "@/lib/apps";
 
-/** App intro hero on /apps/[app]. */
+/** App intro hero — the App site's home. Internal links are root-relative
+    (the App is served at its own subdomain root). */
 export function AppHero({ app, hasDocs }: { app: AppConfig; hasDocs: boolean }) {
-  const base = `/apps/${app.slug}`;
   const ext = app.external ?? {};
   return (
     <section className="py-16 text-center sm:py-20">
@@ -20,7 +20,7 @@ export function AppHero({ app, hasDocs }: { app: AppConfig; hasDocs: boolean }) 
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         {hasDocs && (
-          <Button render={<Link href={`${base}/docs`} />} className="gap-2">
+          <Button render={<Link href="/docs" />} className="gap-2">
             阅读文档 <ArrowRight size={16} />
           </Button>
         )}

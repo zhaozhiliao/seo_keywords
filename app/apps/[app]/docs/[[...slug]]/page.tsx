@@ -5,6 +5,7 @@ import { Toc } from "@/components/docs/toc";
 import { getApp, getAllApps } from "@/lib/apps";
 import { getAppDoc, getAppDocsNav } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
+import { appBaseUrl } from "@/lib/app-url";
 
 export function generateStaticParams() {
   return getAllApps().flatMap((a) =>
@@ -19,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ app: stri
   return buildMetadata({
     title: doc.title,
     description: doc.description,
-    path: `/apps/${app}/docs${slug?.length ? "/" + slug.join("/") : ""}`,
+    path: `${appBaseUrl(app)}/docs${slug?.length ? "/" + slug.join("/") : ""}`,
   });
 }
 

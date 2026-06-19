@@ -3,7 +3,7 @@
  * never import `.source` directly. App content lives in one flat collection
  * each and is filtered by app slug here (see ARCHITECTURE.md §4).
  */
-import { blog, appDocs } from "@/.source/server";
+import { blog, appDocs, appChangelog } from "@/.source/server";
 import type { ComponentType } from "react";
 import type { TableOfContents } from "fumadocs-core/toc";
 
@@ -13,6 +13,7 @@ export interface DocEntry {
   date?: string | Date;
   tags?: string[];
   order?: number;
+  version?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: ComponentType<any>;
   toc: TableOfContents;
@@ -86,4 +87,17 @@ export function getAppDoc(app: string, slugs: string[] = []): DocEntry | undefin
 /** Whether an App has any docs content (drives the intro CTA + docs route). */
 export function appHasDocs(app: string): boolean {
   return appDocsOf(app).length > 0;
+}
+
+/* ══════════════ App changelog (parallel to docs) ══════════════ */
+const appChangelogOf = (app: string) =>
+  (appChangelog as unknown as DocEntry[]).filter((p) => p.info.path.startsWith(`${app}/changelog/`));
+
+/** Version entries for an App, newest first. */
+export function getAppChangelog(app: string): DocEntry[] {
+  return appChangelogOf(app).sort(byDateDesc);
+}
+
+export function appHasChangelog(app: string): boolean {
+  return appChangelogOf(app).length > 0;
 }

@@ -1,12 +1,13 @@
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { appBaseUrl } from "@/lib/app-url";
 import type { AppConfig } from "@/lib/apps";
 
-/** App overview card (/apps). Uses the App's brandColor as a local accent dot. */
+/** App card on the personal site's /apps overview. Links out to the App's own
+    site (its subdomain). Uses the App's brandColor as a local accent. */
 export function AppCard({ app }: { app: AppConfig }) {
   return (
-    <Link
-      href={`/apps/${app.slug}`}
+    <a
+      href={appBaseUrl(app.slug)}
       className="group flex flex-col rounded-lg border border-border bg-bg-card p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
     >
       <div className="mb-3 flex items-center justify-between">
@@ -23,6 +24,7 @@ export function AppCard({ app }: { app: AppConfig }) {
       </div>
       <h3 className="text-base font-semibold tracking-tight transition-colors group-hover:text-brand">{app.name}</h3>
       <p className="mt-1.5 line-clamp-2 flex-1 text-sm text-fg-muted">{app.tagline}</p>
-    </Link>
+      <span className="mt-3 truncate text-xs text-fg-subtle">{appBaseUrl(app.slug).replace(/^https?:\/\//, "")}</span>
+    </a>
   );
 }

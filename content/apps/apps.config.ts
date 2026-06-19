@@ -25,6 +25,9 @@ export const apps: AppConfig[] = [
     name: "App One",
     tagline: "一句话讲清楚这个 App 解决什么问题。",
     brandColor: "#4F46E5",
-    external: { github: "https://github.com/wikipie/app-one" },
+    external: {
+      github: "https://github.com/wikipie/app-one",
+      download: "https://apps.apple.com/app/app-one",
+    },
   },
 ];
