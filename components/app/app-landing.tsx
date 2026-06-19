@@ -36,23 +36,17 @@ export function AppLanding({ app, landing }: { app: AppConfig; landing: Landing 
       </section>
 
       {/* Screenshot */}
-      <section className="mt-12">
-        <div className="rounded-xl bg-gradient-to-b from-bg-subtle to-bg-card p-6 shadow-sm sm:p-10">
-          {landing.screenshot ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={landing.screenshot}
-              alt={`${app.name} 截图`}
-              className="mx-auto w-full max-w-3xl rounded-lg border border-border shadow-md"
-            />
-          ) : (
-            <div className="mx-auto flex aspect-[16/10] w-full max-w-3xl items-center justify-center rounded-lg border border-dashed border-border-strong bg-bg-card text-fg-subtle">
-              <span className="flex items-center gap-2 text-sm">
-                <ImageIcon size={16} /> 产品截图占位
-              </span>
-            </div>
-          )}
-        </div>
+      <section className="-mx-6 mt-12">
+        {landing.screenshot ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={landing.screenshot} alt={`${app.name} 截图`} className="w-full" />
+        ) : (
+          <div className="flex aspect-[16/10] w-full items-center justify-center border-y border-dashed border-border-strong bg-bg-card text-fg-subtle">
+            <span className="flex items-center gap-2 text-sm">
+              <ImageIcon size={16} /> 产品截图占位
+            </span>
+          </div>
+        )}
       </section>
 
       {/* Features */}
