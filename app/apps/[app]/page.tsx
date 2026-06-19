@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { AppHero } from "@/components/app/app-hero";
+import { AppLanding } from "@/components/app/app-landing";
 import { getApp } from "@/lib/apps";
 import { appHasDocs } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
@@ -11,13 +12,15 @@ export async function generateMetadata({ params }: { params: Promise<{ app: stri
   const { app: appSlug } = await params;
   const app = getApp(appSlug);
   if (!app) return {};
-  return buildMetadata({ title: app.name, description: app.tagline, path: appBaseUrl(app.slug) });
+  return { ...buildMetadata({ title: app.name, description: app.tagline, path: appBaseUrl(app.slug) }), title: { absolute: app.name } };
 }
 
 export default async function AppHomePage({ params }: { params: Promise<{ app: string }> }) {
   const { app: appSlug } = await params;
   const app = getApp(appSlug);
   if (!app) notFound();
+
+  if (app.landing) return <AppLanding app={app} landing={app.landing} />;
 
   return (
     <Container width="content">

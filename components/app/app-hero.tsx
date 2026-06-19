@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ExternalLink, Download, Globe, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AppLogo } from "@/components/app/app-logo";
 import type { AppConfig } from "@/lib/apps";
 
 /** App intro hero — the App site's home. Internal links are root-relative
@@ -9,12 +10,7 @@ export function AppHero({ app, hasDocs }: { app: AppConfig; hasDocs: boolean }) 
   const ext = app.external ?? {};
   return (
     <section className="py-16 text-center sm:py-20">
-      <span
-        className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-xl text-xl font-bold text-white shadow-md"
-        style={{ background: app.brandColor ?? "var(--brand)" }}
-      >
-        {app.name.charAt(0)}
-      </span>
+      <AppLogo app={app} size="xl" className="mx-auto mb-6" />
       <h1 className="text-balance text-4xl font-bold tracking-tight sm:text-5xl">{app.name}</h1>
       <p className="mx-auto mt-4 max-w-xl text-pretty text-lg text-fg-muted">{app.tagline}</p>
 
