@@ -6,7 +6,7 @@ type DocPage = {
   data: { getText?: (type: "raw" | "processed") => Promise<string> };
 };
 
-/** Resolve a docs page from its public URL path (e.g. `/docs/privacy`, `/apps/whatermind/docs`). */
+/** Resolve a docs page from its public URL path (e.g. `/docs/privacy`, `/apps/watermind/docs`). */
 export function getDocPageByPath(docPath: string): DocPage | undefined {
   const appMatch = docPath.match(/^\/apps\/([^/]+)\/docs(?:\/(.*))?$/);
   if (appMatch) {

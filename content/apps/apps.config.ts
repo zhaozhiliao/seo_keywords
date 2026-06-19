@@ -49,17 +49,17 @@ export interface AppConfig {
 export const apps: AppConfig[] = [
   {
     // 素材为占位，后续手动替换（截图、文案、下载链接）。
-    slug: "whatermind",
-    name: "WhaterMind",
+    slug: "watermind",
+    name: "WaterMind",
     tagline: "认真喝水",
-    logo: "/apps/whatermind/icon.png",
+    logo: "/apps/watermind/icon.png",
     brandColor: "#1970FA",
     external: { download: "#" },
     landing: {
       headline: "认真喝水 - 喝水记录提醒工具",
       subhead: "简洁、实用、专注，适配 iOS / iPadOS",
       downloadCta: { label: "下载 App", href: "#" },
-      screenshot: "/apps/whatermind/hero.png", // TODO: 替换为真实截图
+      screenshot: "/apps/watermind/hero.png", // TODO: 替换为真实截图
       featuresTitle: "功能介绍",
       features: [ 
         { icon: "droplets", title: "轻松记录", desc: "水、茶、咖啡等随心记录", },

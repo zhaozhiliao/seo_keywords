@@ -1,11 +1,11 @@
 import { loader } from "fumadocs-core/source";
-import { whatermindDocs } from "@/.source/server";
+import { watermindDocs } from "@/.source/server";
 
 /** Per-App docs loaders (Fumadocs page tree). Add one entry per `defineDocs` export. */
 const APP_DOCS = {
-  whatermind: loader({
+  watermind: loader({
     baseUrl: "/docs",
-    source: whatermindDocs.toFumadocsSource(),
+    source: watermindDocs.toFumadocsSource(),
   }),
 } as const;
 

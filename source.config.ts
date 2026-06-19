@@ -37,8 +37,8 @@ export const blog = defineCollections({
    `app1/docs/getting-started.mdx` and `app1/changelog/v1.8.0.mdx`. ── */
 /* App docs — one defineDocs per App (Fumadocs page tree + meta.json grouping).
    Add a matching export when registering a new App with docs. */
-export const whatermindDocs = defineDocs({
-  dir: "content/apps/whatermind/docs",
+export const watermindDocs = defineDocs({
+  dir: "content/apps/watermind/docs",
   docs: {
     postprocess: { includeProcessedMarkdown: true },
   },
