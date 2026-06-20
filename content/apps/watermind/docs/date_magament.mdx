@@ -97,8 +97,8 @@ order: 3
 
 时间支持两种写法：本 App 的单列 ISO 8601 时间，或第三方常见的**日期 + 时间分列**（如 `2026/6/19` + `23:36`）。
 
-### 示例：从「喝水时间」迁移
-「喝水时间」（WaterTracker）导出的表头形如
+### 示例：从「某喝水 App」迁移
+「某喝水 App」导出的表头形如
 `Drink Type, Hydration Volume(ml), Water Volume(ml), …, Date, Time, …, WaterRatio, …`，
 导入时会自动取用其中的 `Drink Type`（名称）、`Hydration Volume(ml)`（容量）、`WaterRatio`（补水率）与 `Date + Time`（时间），其余无关列忽略。
 
