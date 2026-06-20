@@ -5,6 +5,8 @@
  * 1. Create `content/apps/<slug>/app.config.ts` (export `<slug>: AppConfig`)
  * 2. Import and append here
  * 3. Add docs/changelog content + `defineDocs` loader (see CLAUDE.md)
+ *
+ * Landing themes (`landing.theme`): `stacked` (vertical) | `split` (grid hero).
  */
 export type {
   AppConfig,
@@ -12,6 +14,7 @@ export type {
   AppFooterColumn,
   AppFooterLink,
   AppLanding,
+  AppLandingTheme,
 } from "./app-types";
 
 import type { AppConfig } from "./app-types";

@@ -1,5 +1,12 @@
 /** Shared App config types — imported by each `content/apps/<slug>/app.config.ts`. */
 
+/** Landing page layout theme — pick per App in `landing.theme`. */
+export type AppLandingTheme =
+  /** Vertical stack: hero → full-bleed screenshot → features → pricing. */
+  | "stacked"
+  /** Modular grid: hero + screenshot side-by-side on large screens. */
+  | "split";
+
 /** Shared link shape for footer columns and landing hero CTAs. */
 export interface AppFooterLink {
   href: string;
@@ -11,6 +18,8 @@ export interface AppFooterLink {
     `features[].icon` uses lucide.dev kebab-case names (e.g. `bell-ring`).
     Hero secondary buttons: `heroCtas` (same link rules as footer). */
 export interface AppLanding {
+  /** Layout theme; defaults to `stacked`. */
+  theme?: AppLandingTheme;
   headline?: string;
   subhead?: string;
   /** Hero download button; href falls back to `external.download`. */

@@ -11,6 +11,7 @@ export const watermind: AppConfig = {
   brandColor: "#1970FA",
   external: { download: APP_STORE },
   landing: {
+    theme: "stacked",
     headline: "认真喝水 - 喝水记录提醒工具",
     subhead: "简洁、实用、专注，适配 iOS / iPadOS",
     downloadCta: { label: "下载 App" },
