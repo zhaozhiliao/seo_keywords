@@ -8,9 +8,16 @@ import { useApiKey } from "@/components/context/ApiKeyContext";
 import { AI_PROVIDERS } from "@/lib/ai/providers";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ToolPanel, ToolPanelBody, ToolPanelHeader } from "@/components/tools/tool-panel";
+import {
+  ToolPanel,
+  ToolPanelBody,
+  ToolPanelHeader,
+  toolChipActive,
+  toolChipInactive,
+  toolInset,
+} from "@/components/tools/tool-panel";
+import { cn } from "@/lib/utils";
 
-/* A single key row — reused across all API categories. */
 function KeyRow({
   name,
   configured,
@@ -39,24 +46,23 @@ function KeyRow({
   const [dirty, setDirty] = useState(false);
 
   return (
-    <div className="rounded-xl bg-bg-subtle p-4">
-      <div className="mb-2 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold">{name}</span>
+    <div className={cn(toolInset, "border border-border/60")}>
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-sm font-semibold text-fg">{name}</span>
           {configured && (
             <span className="flex items-center gap-1 rounded-full bg-success/10 px-1.5 py-0.5 text-[10px] font-medium text-success">
-              <Check size={10} /> 已配置
+              <Check size={10} aria-hidden="true" /> 已配置
             </span>
           )}
           {selected !== undefined && (
             <button
               type="button"
               onClick={onSelect}
-              className={`rounded-full px-2 py-0.5 text-[10px] font-medium transition-colors ${
-                selected
-                  ? "bg-brand text-white"
-                  : "bg-bg-subtle text-fg-muted hover:text-fg"
-              }`}
+              className={cn(
+                "rounded-full border px-2 py-0.5 text-[10px] font-medium transition-colors",
+                selected ? toolChipActive : toolChipInactive
+              )}
             >
               {selected ? "当前默认" : "设为默认"}
             </button>
@@ -67,15 +73,15 @@ function KeyRow({
             href={keysUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-xs text-fg-muted underline-offset-4 hover:text-fg hover:underline"
+            className="flex items-center gap-1 text-xs text-fg-muted underline-offset-4 hover:text-brand hover:underline"
           >
-            获取 Key <ExternalLink size={11} />
+            获取 Key <ExternalLink size={11} aria-hidden="true" />
           </a>
         )}
       </div>
 
-      <div className="flex items-center gap-2">
-        <div className="relative flex-1">
+      <div className="flex flex-wrap items-center gap-2">
+        <div className="relative min-w-[12rem] flex-1">
           <Input
             type={show ? "text" : "password"}
             value={draft}
@@ -89,9 +95,10 @@ function KeyRow({
           <button
             type="button"
             onClick={() => setShow((v) => !v)}
+            aria-label={show ? "隐藏 Key" : "显示 Key"}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-fg-muted hover:text-fg"
           >
-            {show ? <Eye size={15} /> : <EyeOff size={15} />}
+            {show ? <Eye size={15} aria-hidden="true" /> : <EyeOff size={15} aria-hidden="true" />}
           </button>
         </div>
         <Button
@@ -119,7 +126,7 @@ function KeyRow({
           </Button>
         )}
       </div>
-      {hint && <p className="mt-2 text-[11px] text-fg-muted">{hint}</p>}
+      {hint && <p className="mt-2 text-[11px] leading-relaxed text-fg-muted">{hint}</p>}
     </div>
   );
 }
@@ -149,7 +156,6 @@ export default function ApiManager() {
 
   return (
     <div className="space-y-6">
-      {/* AI models */}
       <Section
         icon={Sparkles}
         title="AI 模型"
@@ -176,7 +182,6 @@ export default function ApiManager() {
         ))}
       </Section>
 
-      {/* SEO data */}
       <Section icon={BarChart3} title="SEO 数据" desc="用于关键词探索等数据查询工具。">
         <KeyRow
           name="Ahrefs"
@@ -188,8 +193,6 @@ export default function ApiManager() {
           onClear={() => ahrefs.setApiKey("")}
         />
       </Section>
-
-      {/* Future categories can be appended here as new <Section> blocks. */}
     </div>
   );
 }

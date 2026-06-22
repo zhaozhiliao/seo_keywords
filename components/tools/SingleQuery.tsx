@@ -553,7 +553,7 @@ export default function SingleQuery() {
             <Alert>
               <AlertDescription>
                 请先在工具页{" "}
-                <Link href="/settings" className="font-medium text-brand underline-offset-4 hover:underline">
+                <Link href="/tools/settings" className="font-medium text-brand underline-offset-4 hover:underline">
                   API 设置
                 </Link>{" "}
                 中配置 Ahrefs API Key 后再查询
