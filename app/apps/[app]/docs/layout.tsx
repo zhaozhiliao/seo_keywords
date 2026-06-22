@@ -20,7 +20,7 @@ export default async function AppDocsLayout({
 
   return (
     <Container className="py-10">
-      <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)]">
+      <div className="grid gap-4 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-10">
         <DocsSidebarTree tree={tree} title="文档" />
         <div className="min-w-0">{children}</div>
       </div>

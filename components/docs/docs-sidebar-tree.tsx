@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { DocsNavDrawer } from "@/components/docs/docs-nav-drawer";
 
 export type SidebarTreeNode = {
   type: string;
@@ -10,6 +11,16 @@ export type SidebarTreeNode = {
   url?: string;
   children?: SidebarTreeNode[];
 };
+
+function findPageTitle(nodes: SidebarTreeNode[], pathname: string): string | undefined {
+  for (const node of nodes) {
+    if (node.type === "page" && node.url === pathname) return String(node.name ?? "");
+    if (node.children?.length) {
+      const found = findPageTitle(node.children, pathname);
+      if (found) return found;
+    }
+  }
+}
 
 function NodeList({ nodes, pathname }: { nodes: SidebarTreeNode[]; pathname: string }) {
   return (
@@ -63,15 +74,27 @@ function SidebarNode({ node, pathname }: { node: SidebarTreeNode; pathname: stri
   return null;
 }
 
+function SidebarTree({ tree, pathname }: { tree: SidebarTreeNode[]; pathname: string }) {
+  return <NodeList nodes={tree} pathname={pathname} />;
+}
+
 /** Fumadocs page-tree sidebar (groups, folders, separators). */
 export function DocsSidebarTree({ tree, title = "文档" }: { tree: SidebarTreeNode[]; title?: string }) {
   const pathname = usePathname();
+  const currentLabel = findPageTitle(tree, pathname);
+
   return (
-    <aside className="lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-auto">
-      <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-fg-subtle">{title}</p>
-      <div className="flex gap-1 overflow-x-auto pb-2 lg:block lg:overflow-visible lg:pb-0">
-        <NodeList nodes={tree} pathname={pathname} />
+    <>
+      <div className="lg:hidden">
+        <DocsNavDrawer title={title} currentLabel={currentLabel}>
+          <SidebarTree tree={tree} pathname={pathname} />
+        </DocsNavDrawer>
       </div>
-    </aside>
+
+      <aside className="hidden lg:sticky lg:top-20 lg:block lg:max-h-[calc(100vh-6rem)] lg:overflow-auto">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-fg-subtle">{title}</p>
+        <SidebarTree tree={tree} pathname={pathname} />
+      </aside>
+    </>
   );
 }

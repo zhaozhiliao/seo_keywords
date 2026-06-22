@@ -22,8 +22,9 @@ export interface AppLanding {
   theme?: AppLandingTheme;
   headline?: string;
   subhead?: string;
-  /** Hero download button; href falls back to `external.download`. */
-  downloadCta?: { label: string; href?: string };
+  /** Hero download button; href falls back to `external.download`.
+      Set `disabled: true` or omit href/download URL for a non-interactive state. */
+  downloadCta?: { label: string; href?: string; disabled?: boolean };
   /** Outline buttons after download — configured per App. */
   heroCtas?: AppFooterLink[];
   /** Hero screenshot/image src; shows a placeholder when omitted. */

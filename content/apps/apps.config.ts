@@ -18,6 +18,7 @@ export type {
 } from "./app-types";
 
 import type { AppConfig } from "./app-types";
+import { echokit } from "./echokit/app.config";
 import { watermind } from "./watermind/app.config";
 
-export const apps: AppConfig[] = [watermind];
+export const apps: AppConfig[] = [echokit, watermind];

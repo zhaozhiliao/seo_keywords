@@ -26,23 +26,42 @@ export function landingIcon(name?: string): LucideIcon {
 }
 
 export function resolveLandingData(app: AppConfig, landing: AppLanding) {
-  const downloadHref = landing.downloadCta?.href ?? app.external?.download ?? "#";
+  const downloadHref = landing.downloadCta?.href ?? app.external?.download;
   const downloadLabel = landing.downloadCta?.label ?? "下载 App";
+  const showDownload = landing.downloadCta != null || !!app.external?.download;
+  const downloadDisabled = landing.downloadCta?.disabled === true || !downloadHref;
   const homeUrl = `${CANONICAL_ROOT.includes("localhost") ? "http" : "https"}://${CANONICAL_ROOT}`;
   const heroCtas = landing.heroCtas ? resolveAppLinks(landing.heroCtas, homeUrl) : [];
-  return { downloadHref, downloadLabel, heroCtas };
+  return { downloadHref, downloadLabel, showDownload, downloadDisabled, heroCtas };
 }
 
 export function LandingHeroCtas({
   downloadHref,
   downloadLabel,
+  showDownload,
+  downloadDisabled,
   heroCtas,
 }: ReturnType<typeof resolveLandingData>) {
   return (
     <div className="flex flex-wrap gap-3">
-      <Button render={<a href={downloadHref} target="_blank" rel="noreferrer" />} className="gap-2 rounded-full px-5">
-        <Download size={16} aria-hidden="true" /> {downloadLabel}
-      </Button>
+      {showDownload &&
+        (downloadDisabled ? (
+          <Button
+            disabled
+            variant="outline"
+            className="cursor-not-allowed rounded-full px-5 text-fg-muted shadow-none"
+            aria-disabled="true"
+          >
+            {downloadLabel}
+          </Button>
+        ) : (
+          <Button
+            render={<a href={downloadHref} target="_blank" rel="noreferrer" />}
+            className="gap-2 rounded-full px-5"
+          >
+            <Download size={16} aria-hidden="true" /> {downloadLabel}
+          </Button>
+        ))}
       {heroCtas.map((cta) =>
         cta.external ? (
           <Button

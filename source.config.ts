@@ -44,6 +44,13 @@ export const watermindDocs = defineDocs({
   },
 });
 
+export const echokitDocs = defineDocs({
+  dir: "content/apps/echokit/docs",
+  docs: {
+    postprocess: { includeProcessedMarkdown: true },
+  },
+});
+
 export const appChangelog = defineCollections({
   type: "doc",
   dir: "content/apps",

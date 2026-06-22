@@ -1,8 +1,12 @@
 import { loader } from "fumadocs-core/source";
-import { watermindDocs } from "@/.source/server";
+import { echokitDocs, watermindDocs } from "@/.source/server";
 
 /** Per-App docs loaders (Fumadocs page tree). Add one entry per `defineDocs` export. */
 const APP_DOCS = {
+  echokit: loader({
+    baseUrl: "/docs",
+    source: echokitDocs.toFumadocsSource(),
+  }),
   watermind: loader({
     baseUrl: "/docs",
     source: watermindDocs.toFumadocsSource(),
