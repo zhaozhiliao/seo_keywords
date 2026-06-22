@@ -57,7 +57,7 @@ export function FooterShell({
   columns: React.ReactNode;
 }) {
   return (
-    <footer className="mt-24 border-t border-border bg-bg-subtle">
+    <footer className="bg-bg-subtle">
       <div
         className="mx-auto flex flex-col gap-10 px-6 py-12 lg:flex-row lg:items-start lg:justify-between"
         style={{ maxWidth: "var(--page-max)" }}

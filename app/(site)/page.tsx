@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { Container } from "@/components/ui/container";
+import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { BlogList } from "@/components/blog/blog-list";
 import { AppCard } from "@/components/app/app-card";
@@ -12,7 +12,7 @@ export default function HomePage() {
   const apps = getAllApps();
 
   return (
-    <Container className="pb-8">
+    <PageLayout className="pb-8">
       {/* Hero */}
       <section className="py-20 sm:py-28">
         <div className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-border bg-bg-subtle px-3 py-1 text-xs text-fg-muted">
@@ -64,6 +64,6 @@ export default function HomePage() {
           </div>
         </section>
       )}
-    </Container>
+    </PageLayout>
   );
 }

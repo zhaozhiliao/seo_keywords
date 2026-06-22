@@ -1,6 +1,5 @@
-import { Container } from "@/components/ui/container";
+import { PageLayout } from "@/components/layout/page-layout";
 import { DocsSidebar, type SidebarItem } from "@/components/docs/docs-sidebar";
-import { Breadcrumbs } from "@/components/nav/breadcrumbs";
 import { docsSource } from "@/lib/source";
 
 /** Flatten the Fumadocs page tree into a flat sidebar (docs here are shallow). */
@@ -19,12 +18,11 @@ function sidebarItems(): SidebarItem[] {
 
 export default function DocsLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Container className="py-10">
-      <Breadcrumbs items={[{ label: "首页", href: "/" }, { label: "文档" }]} />
+    <PageLayout crumbs={[{ label: "首页", href: "/" }, { label: "文档" }]}>
       <div className="grid gap-4 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-10">
         <DocsSidebar items={sidebarItems()} title="文档" />
         <div className="min-w-0">{children}</div>
       </div>
-    </Container>
+    </PageLayout>
   );
 }

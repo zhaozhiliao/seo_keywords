@@ -1,9 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowUpRight, KeyRound } from "lucide-react";
-import { Container } from "@/components/ui/container";
+import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
-import { Breadcrumbs } from "@/components/nav/breadcrumbs";
 import { TOOLS, type ToolMeta } from "@/app/(site)/tools/registry";
 import { buildMetadata } from "@/lib/seo";
 
@@ -15,8 +14,7 @@ export const metadata: Metadata = buildMetadata({
 
 export default function ToolsPage() {
   return (
-    <Container className="py-12">
-      <Breadcrumbs items={[{ label: "首页", href: "/" }, { label: "工具" }]} />
+    <PageLayout crumbs={[{ label: "首页", href: "/" }, { label: "工具" }]}>
       <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">工具</h1>
@@ -32,7 +30,7 @@ export default function ToolsPage() {
           <ToolCard key={t.slug} tool={t} />
         ))}
       </div>
-    </Container>
+    </PageLayout>
   );
 }
 

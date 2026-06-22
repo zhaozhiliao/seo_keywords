@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
-import { Container } from "@/components/ui/container";
-import { Breadcrumbs, type Crumb } from "@/components/nav/breadcrumbs";
+import { PageLayout } from "@/components/layout/page-layout";
+import { type Crumb } from "@/components/nav/breadcrumbs";
 import { toolIconBox, toolIconClass } from "@/components/tools/tool-panel";
 import { cn } from "@/lib/utils";
 
@@ -9,15 +9,14 @@ interface ToolShellProps {
   nameEn: string;
   description: string;
   icon: LucideIcon;
-  /** Page width — `content` for AI forms, `page` for wide data tools. */
+  /** Page width — `content` for reading-width forms, `page` for wide data tools. */
   width?: "page" | "content";
   /** Breadcrumb trail; defaults to 首页 › 工具 › <title>. */
   crumbs?: Crumb[];
   children: React.ReactNode;
 }
 
-/** Breadcrumb + title block for a single tool. Global nav/footer come from
-    the root layout — this only renders the in-page chrome. */
+/** Title block for a single tool. Global nav/footer come from the root layout. */
 export default function ToolShell({
   title,
   nameEn,
@@ -31,9 +30,7 @@ export default function ToolShell({
     crumbs ?? [{ label: "首页", href: "/" }, { label: "工具", href: "/tools" }, { label: title }];
 
   return (
-    <Container width={width} className="py-10">
-      <Breadcrumbs items={trail} />
-
+    <PageLayout crumbs={trail} width={width}>
       <div className="mb-8">
         <div className="mb-3 flex items-center gap-3">
           <div className={cn(toolIconBox, "h-10 w-10")}>
@@ -48,6 +45,6 @@ export default function ToolShell({
       </div>
 
       {children}
-    </Container>
+    </PageLayout>
   );
 }

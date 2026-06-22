@@ -12,7 +12,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
         跳到主要内容
       </a>
       <SiteNav />
-      <main id="main-content" className="flex-1">
+      <main id="main-content" className="flex flex-1 flex-col">
         {children}
       </main>
       <SiteFooter />

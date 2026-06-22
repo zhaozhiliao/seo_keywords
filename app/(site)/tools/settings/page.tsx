@@ -18,7 +18,6 @@ export default function SettingsPage() {
       description="集中管理所有第三方 API 凭据。所有 Key 仅缓存在本地浏览器中，不会上传服务器。"
       icon={KeyRound}
       crumbs={[{ label: "首页", href: "/" }, { label: "工具", href: "/tools" }, { label: "API 设置" }]}
-      width="content"
     >
       <ApiManager />
     </ToolShell>
