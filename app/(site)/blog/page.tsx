@@ -13,7 +13,7 @@ export const metadata: Metadata = buildMetadata({
 export default function BlogIndexPage() {
   const posts = getBlogPosts();
   return (
-    <PageLayout crumbs={[{ label: "首页", href: "/" }, { label: "博客" }]}>
+    <PageLayout crumbs={[{ label: "首页", href: "/" }, { label: "博客" }]} pagePath="/blog">
       <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">博客</h1>
         <p className="mt-2 text-fg-muted">随笔、记录与想法。</p>

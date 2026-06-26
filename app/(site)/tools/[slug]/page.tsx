@@ -27,6 +27,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
       nameEn={tool.nameEn}
       description={tool.description}
       icon={tool.icon}
+      pagePath={`/tools/${tool.slug}`}
     >
       <ToolBody slug={tool.slug} />
     </ToolShell>

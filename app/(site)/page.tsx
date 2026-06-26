@@ -1,11 +1,24 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
+import { JsonLd } from "@/components/seo/json-ld";
 import { Button } from "@/components/ui/button";
 import { BlogList } from "@/components/blog/blog-list";
 import { AppCard } from "@/components/app/app-card";
 import { getBlogPosts } from "@/lib/content";
 import { getAllApps } from "@/lib/apps";
+import { webSiteJsonLd } from "@/lib/json-ld";
+import { buildMetadata } from "@/lib/seo";
+
+const HOME_DESCRIPTION =
+  "wikipie 的个人站点：博客、文档、SEO 工具集合，以及多个 App 的介绍、文档与更新日志。";
+
+export const metadata: Metadata = buildMetadata({
+  title: "个人站点",
+  description: HOME_DESCRIPTION,
+  path: "/",
+});
 
 export default function HomePage() {
   const posts = getBlogPosts().slice(0, 4);
@@ -13,6 +26,7 @@ export default function HomePage() {
 
   return (
     <PageLayout className="pb-8">
+      <JsonLd data={webSiteJsonLd(HOME_DESCRIPTION)} />
       {/* Hero */}
       <section className="py-20 sm:py-28">
         <div className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-border bg-bg-subtle px-3 py-1 text-xs text-fg-muted">

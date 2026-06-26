@@ -15,7 +15,7 @@ export default function AppsPage() {
   const apps = getAllApps();
   return (
     <SiteShell>
-      <PageLayout crumbs={[{ label: "首页", href: "/" }, { label: "Apps" }]}>
+      <PageLayout crumbs={[{ label: "首页", href: "/" }, { label: "Apps" }]} pagePath="/apps">
         <header className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight">Apps</h1>
           <p className="mt-2 text-fg-muted">我做的几个 App，每个都是独立的站点。</p>

@@ -9,6 +9,7 @@ interface ToolShellProps {
   nameEn: string;
   description: string;
   icon: LucideIcon;
+  pagePath: string;
   /** Page width — `content` for reading-width forms, `page` for wide data tools. */
   width?: "page" | "content";
   /** Breadcrumb trail; defaults to 首页 › 工具 › <title>. */
@@ -22,6 +23,7 @@ export default function ToolShell({
   nameEn,
   description,
   icon: Icon,
+  pagePath,
   width = "page",
   crumbs,
   children,
@@ -30,7 +32,7 @@ export default function ToolShell({
     crumbs ?? [{ label: "首页", href: "/" }, { label: "工具", href: "/tools" }, { label: title }];
 
   return (
-    <PageLayout crumbs={trail} width={width}>
+    <PageLayout crumbs={trail} pagePath={pagePath} width={width}>
       <div className="mb-8">
         <div className="mb-3 flex items-center gap-3">
           <div className={cn(toolIconBox, "h-10 w-10")}>
