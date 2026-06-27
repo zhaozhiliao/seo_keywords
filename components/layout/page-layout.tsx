@@ -23,9 +23,15 @@ export function PageLayout({
     <div className="flex flex-1 flex-col">
       {crumbs?.length && pagePath ? <JsonLd data={breadcrumbJsonLd(crumbs, pagePath)} /> : null}
       <Container width={width} className={cn("flex flex-1 flex-col pt-10", className)}>
-        <div className="min-h-0 flex-1">{children}</div>
-        {crumbs?.length ? <Breadcrumbs items={crumbs} placement="bottom" /> : null}
+        <div className="min-h-0 flex-1 pb-10">{children}</div>
       </Container>
+      {crumbs?.length ? (
+        <div className="mt-auto shrink-0 border-y border-border bg-bg-subtle">
+          <Container width="page" className="py-6">
+            <Breadcrumbs items={crumbs} placement="bottom" />
+          </Container>
+        </div>
+      ) : null}
     </div>
   );
 }

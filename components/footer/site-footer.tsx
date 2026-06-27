@@ -5,6 +5,7 @@ const PAGE_LINKS = [
   { href: "/blog", label: "Blog" },
   { href: "/docs", label: "Docs" },
   { href: "/tools", label: "Tools" },
+  { href: "/ai-lab", label: "AI Lab" },
   { href: "/apps", label: "Apps" },
 ];
 

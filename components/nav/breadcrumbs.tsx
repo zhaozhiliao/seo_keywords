@@ -9,7 +9,8 @@ export interface Crumb {
   href?: string;
 }
 
-/** Hierarchical breadcrumb trail. Prefer `placement="bottom"` (Airbnb-style footer nav). */
+/** Hierarchical breadcrumb trail. Prefer `placement="bottom"` inside the
+    footer-style band rendered by PageLayout. */
 export function Breadcrumbs({
   items,
   className,
@@ -17,7 +18,7 @@ export function Breadcrumbs({
 }: {
   items: Crumb[];
   className?: string;
-  /** `bottom` — below main content with a top rule; `top` — legacy above the title. */
+  /** `bottom` — below main content; `top` — legacy above the title. */
   placement?: "top" | "bottom";
 }) {
   const isBottom = placement === "bottom";
@@ -26,7 +27,7 @@ export function Breadcrumbs({
     <nav
       className={cn(
         "flex flex-wrap items-center gap-1.5 text-xs text-fg-muted",
-        isBottom ? "mt-auto shrink-0 border-t border-border py-6" : "mb-5",
+        isBottom ? "shrink-0" : "mb-5",
         className
       )}
       aria-label="面包屑"

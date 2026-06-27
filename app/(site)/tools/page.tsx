@@ -39,7 +39,7 @@ function ToolCard({ tool }: { tool: ToolMeta }) {
   return (
     <Link
       href={`/tools/${tool.slug}`}
-      className="group flex flex-col rounded-lg border border-border bg-bg-card p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+      className="group flex flex-col rounded-lg border border-border bg-bg-card p-5 shadow-sm"
     >
       <div className="mb-3 flex items-center justify-between">
         <span className="flex h-9 w-9 items-center justify-center rounded-md bg-bg-subtle">
