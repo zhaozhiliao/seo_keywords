@@ -34,10 +34,10 @@ function ExplorationCard({ exploration }: { exploration: Exploration }) {
   return (
     <Link
       href={`/ai-lab/${exploration.slug}`}
-      className="group flex cursor-pointer flex-col rounded-lg border border-border bg-bg-card p-5 shadow-sm"
+      className="group flex cursor-pointer flex-col rounded-lg border border-border bg-bg-card p-5"
     >
       <div className="mb-3 flex items-center justify-between">
-        <span className="flex h-9 w-9 items-center justify-center rounded-md bg-bg-subtle transition-colors group-hover:bg-brand-soft">
+        <span className="flex h-9 w-9 items-center justify-center rounded-md bg-bg-inset transition-colors group-hover:bg-brand-soft">
           <Icon size={16} className="text-fg-muted transition-colors group-hover:text-brand" />
         </span>
         <ArrowUpRight
@@ -52,7 +52,7 @@ function ExplorationCard({ exploration }: { exploration: Exploration }) {
       <p className="mt-2 line-clamp-2 flex-1 text-sm text-fg-muted">{exploration.description}</p>
       <div className="mt-3 flex flex-wrap gap-1.5">
         {exploration.tags.map((tag) => (
-          <span key={tag} className="rounded-sm bg-bg-subtle px-1.5 py-0.5 text-[11px] text-fg-subtle">
+          <span key={tag} className="rounded-sm bg-bg-inset px-1.5 py-0.5 text-[11px] text-fg-subtle">
             {tag}
           </span>
         ))}

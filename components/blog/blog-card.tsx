@@ -14,7 +14,7 @@ export function BlogCard({ post, base }: { post: BlogCardData; base: string }) {
   return (
     <Link
       href={`${base}/${post.slug}`}
-      className="group block rounded-lg border border-border bg-bg-card p-5 shadow-sm"
+      className="group block rounded-lg border border-border bg-bg-card p-5"
     >
       <div className="mb-2 flex items-center gap-3 text-xs text-fg-subtle">
         {post.date && <time dateTime={new Date(post.date).toISOString()}>{formatDate(post.date)}</time>}

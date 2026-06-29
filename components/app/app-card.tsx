@@ -9,7 +9,7 @@ export function AppCard({ app }: { app: AppConfig }) {
   return (
     <a
       href={appBaseUrl(app.slug)}
-      className="group flex flex-col rounded-lg border border-border bg-bg-card p-5 shadow-sm"
+      className="group flex flex-col rounded-lg border border-border bg-bg-card p-5"
     >
       <div className="mb-3 flex items-center justify-between">
         <AppLogo app={app} size="lg" />

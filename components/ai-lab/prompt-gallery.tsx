@@ -92,7 +92,7 @@ function FilterRow({
             "cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition-all duration-150 active:scale-[0.98]",
             active === opt
               ? "border-brand bg-brand text-white hover:bg-brand/85 hover:border-brand/85"
-              : "border-border bg-bg text-fg-muted hover:border-border-strong hover:bg-bg-subtle hover:text-fg"
+              : "border-border bg-bg-card text-fg-muted hover:border-border-strong hover:bg-bg-inset hover:text-fg"
           )}
         >
           {opt}

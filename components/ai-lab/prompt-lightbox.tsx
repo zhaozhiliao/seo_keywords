@@ -166,7 +166,7 @@ export function PromptLightbox({
                 {entry.models.map((m) => (
                   <span
                     key={`m-${m}`}
-                    className="rounded-full bg-bg-subtle px-2 py-0.5 text-[11px] font-medium text-fg-muted"
+                    className="rounded-full bg-bg-inset px-2 py-0.5 text-[11px] font-medium text-fg-muted"
                   >
                     {m}
                   </span>
@@ -179,7 +179,7 @@ export function PromptLightbox({
                 <span className="text-xs font-medium text-fg-subtle">Prompt</span>
                 <CopyButton value={entry.prompt} iconOnly variant="ghost" label="复制 Prompt" />
               </div>
-              <p className="rounded-lg bg-bg-subtle p-3 font-mono text-[13px] leading-relaxed whitespace-pre-wrap text-fg">
+              <p className="rounded-lg bg-bg-inset p-3 font-mono text-[13px] leading-relaxed whitespace-pre-wrap text-fg">
                 {entry.prompt}
               </p>
             </div>

@@ -20,7 +20,7 @@ export default function ToolsPage() {
           <h1 className="text-3xl font-bold tracking-tight">工具</h1>
           <p className="mt-2 text-fg-muted">关键词研究与 AI 辅助的内容/SEO 工具，{TOOLS.length} 个可用。</p>
         </div>
-        <Button variant="outline" render={<Link href="/tools/settings" />} className="shrink-0 gap-2 shadow-none">
+        <Button variant="outline" render={<Link href="/tools/settings" />} className="shrink-0 gap-2">
           <KeyRound size={16} aria-hidden="true" />
           API 设置
         </Button>
@@ -39,10 +39,10 @@ function ToolCard({ tool }: { tool: ToolMeta }) {
   return (
     <Link
       href={`/tools/${tool.slug}`}
-      className="group flex flex-col rounded-lg border border-border bg-bg-card p-5 shadow-sm"
+      className="group flex flex-col rounded-lg border border-border bg-bg-card p-5"
     >
       <div className="mb-3 flex items-center justify-between">
-        <span className="flex h-9 w-9 items-center justify-center rounded-md bg-bg-subtle">
+        <span className="flex h-9 w-9 items-center justify-center rounded-md bg-bg-inset">
           <Icon size={16} className="text-fg-muted" />
         </span>
         <ArrowUpRight
@@ -55,7 +55,7 @@ function ToolCard({ tool }: { tool: ToolMeta }) {
       <p className="mt-2 line-clamp-2 flex-1 text-sm text-fg-muted">{tool.description}</p>
       <div className="mt-3 flex flex-wrap gap-1.5">
         {tool.tags.map((tag) => (
-          <span key={tag} className="rounded-sm bg-bg-subtle px-1.5 py-0.5 text-[11px] text-fg-subtle">
+          <span key={tag} className="rounded-sm bg-bg-inset px-1.5 py-0.5 text-[11px] text-fg-subtle">
             {tag}
           </span>
         ))}

@@ -23,13 +23,16 @@
   --fg-muted:  #4d4d4d;  /* gray-900  — secondary text */
   --fg-subtle: #8f8f8f;  /* gray-700  — disabled / placeholder */
 
-  /* Surfaces & borders */
-  --bg:            #ffffff;  /* background-100 */
-  --bg-subtle:     #fafafa;  /* background-200 — subtle separation only */
-  --bg-card:       #ffffff;  /* background-100 — cards rely on borders */
-  --border:        #eaeaea;  /* gray-400 */
-  --border-strong: #c9c9c9;  /* gray-500 */
-  --code-bg:       #f2f2f2;  /* gray-100 */
+  /* Surfaces & borders — page #fcfcfc; elevated bands/cards white; inset for icon
+     wells & recessed UI on white surfaces. Borders kept very light. */
+  --bg:            #fcfcfc;  /* page background */
+  --bg-subtle:     #ffffff;  /* elevated bands: footer, breadcrumb */
+  --bg-card:       #ffffff;  /* cards on page bg */
+  --bg-inset:      #ececec;  /* icon wells, tags, recessed panels on cards */
+  --surface-hover: #e4e4e4;  /* ghost/outline hover */
+  --border:        #f0f0f0;  /* default stroke — very light on gray page */
+  --border-strong: #e8e8e8;  /* hover / emphasis stroke */
+  --code-bg:       #ececec;  /* code blocks */
 
   /* Functional */
   --success: #28a948;  /* green-700 */
@@ -75,10 +78,12 @@
   --fg-subtle: #8f8f8f;  /* gray-700 */
 
   --bg:            #000000;  /* background-100 — true black */
-  --bg-subtle:     #0a0a0a;  /* subtle separation */
-  --bg-card:       #0a0a0a;  /* slightly above black + border */
-  --border:        #2e2e2e;  /* gray-400 */
-  --border-strong: #454545;  /* gray-500 */
+  --bg-subtle:     #0a0a0a;
+  --bg-card:       #0a0a0a;
+  --bg-inset:      #141414;  /* icon wells on cards */
+  --surface-hover: #1a1a1a;
+  --border:        #262626;
+  --border-strong: #333333;
   --code-bg:       #1a1a1a;  /* gray-100 */
 
   --success: #00ac3a;  /* green-700 */
@@ -106,9 +111,11 @@
   --color-bg:            var(--bg);
   --color-bg-subtle:     var(--bg-subtle);
   --color-bg-card:       var(--bg-card);
+  --color-bg-inset:      var(--bg-inset);
   --color-border:        var(--border);
   --color-border-strong: var(--border-strong);
   --color-code-bg:       var(--code-bg);
+  --color-surface-hover: var(--surface-hover);
   --color-success:       var(--success);
   --color-warning:       var(--warning);
   --color-error:         var(--error);
@@ -127,7 +134,7 @@
   --color-secondary-foreground:   var(--fg);
   --color-muted:                  var(--bg-subtle);
   --color-muted-foreground:       var(--fg-muted);
-  --color-accent:                 var(--bg-subtle);
+  --color-accent:                 var(--surface-hover);
   --color-accent-foreground:      var(--fg);
   --color-destructive:            var(--error);
   --color-destructive-foreground: #ffffff;
@@ -141,8 +148,8 @@
   --radius-xl: 16px;
   --radius-2xl: 16px;
 
-  /* Geist elevation (subtle; dark relies on borders) */
-  --shadow-sm: 0 2px 2px rgba(0, 0, 0, 0.04);
+  /* Geist elevation — cards rely on borders; shadows stay minimal */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.03);
   --shadow-md: 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 8px -4px rgba(0, 0, 0, 0.04), 0 16px 24px -8px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 1px 1px rgba(0, 0, 0, 0.02), 0 8px 16px -4px rgba(0, 0, 0, 0.04), 0 24px 32px -8px rgba(0, 0, 0, 0.06);
 }

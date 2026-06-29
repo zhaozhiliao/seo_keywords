@@ -142,7 +142,7 @@ export function LandingPricing({ landing }: { landing: AppLanding }) {
           <div
             key={plan.name}
             className={cn(
-              "flex flex-col rounded-xl border bg-bg-card p-6 shadow-sm",
+              "flex flex-col rounded-xl border bg-bg-card p-6",
               plan.featured ? "border-brand" : "border-border"
             )}
           >

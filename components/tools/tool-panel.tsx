@@ -3,21 +3,21 @@ import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /** Shared Geist site tokens for tool UI — use instead of shadcn defaults in tools. */
-export const toolIconBox = "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-bg-subtle";
+export const toolIconBox = "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-bg-inset";
 export const toolIconClass = "text-fg-muted";
-export const toolSegment = "flex rounded-lg bg-bg-subtle p-0.5 text-xs font-medium";
-export const toolSegmentActive = "rounded-md bg-bg text-fg shadow-sm";
+export const toolSegment = "flex rounded-lg bg-bg-inset p-0.5 text-xs font-medium";
+export const toolSegmentActive = "rounded-md bg-bg-card text-fg";
 export const toolSegmentInactive = "text-fg-muted hover:text-fg";
-export const toolChipActive = "border-brand bg-brand text-white shadow-sm";
+export const toolChipActive = "border-brand bg-brand text-white";
 export const toolChipInactive =
-  "border-border bg-bg text-fg-muted hover:border-border-strong hover:text-fg";
-export const toolInset = "rounded-xl bg-bg-subtle p-4";
+  "border-border bg-bg-card text-fg-muted hover:border-border-strong hover:text-fg";
+export const toolInset = "rounded-xl bg-bg-inset p-4";
 export const toolListSelected = "bg-brand-soft text-brand font-medium";
-export const toolListHover = "hover:bg-bg-subtle";
+export const toolListHover = "hover:bg-bg-inset";
 
 export function ToolPanel({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={cn("rounded-xl border border-border bg-bg-card shadow-sm", className)}>{children}</div>
+    <div className={cn("rounded-xl border border-border bg-bg-card", className)}>{children}</div>
   );
 }
 

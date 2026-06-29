@@ -13,7 +13,7 @@ export function PromptCard({ entry, onOpen }: { entry: PromptEntry; onOpen: () =
   const label = `Prompt ${entry.id}`;
 
   return (
-    <div className="group mb-4 break-inside-avoid overflow-hidden rounded-xl border border-border bg-bg-card shadow-sm">
+    <div className="group mb-4 break-inside-avoid overflow-hidden rounded-xl border border-border bg-bg-card">
       <button
         type="button"
         onClick={onOpen}
@@ -55,7 +55,7 @@ export function PromptCard({ entry, onOpen }: { entry: PromptEntry; onOpen: () =
             {entry.models.map((m) => (
               <span
                 key={`m-${m}`}
-                className="rounded-full bg-bg-subtle px-2 py-0.5 text-[11px] font-medium text-fg-muted"
+                className="rounded-full bg-bg-inset px-2 py-0.5 text-[11px] font-medium text-fg-muted"
               >
                 {m}
               </span>
@@ -65,7 +65,7 @@ export function PromptCard({ entry, onOpen }: { entry: PromptEntry; onOpen: () =
               iconOnly
               variant="ghost"
               label="复制 Prompt"
-              className="-mr-1 shrink-0 hover:bg-bg-subtle hover:text-brand"
+              className="-mr-1 shrink-0 hover:bg-bg-inset hover:text-brand"
             />
           </div>
         </div>
